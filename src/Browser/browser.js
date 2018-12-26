@@ -1,5 +1,5 @@
 const p = require('phin');
-const helper = require('../Utils/helper');
+const Helper = require('../Utils/helper');
 
 class Browser{
 
@@ -39,13 +39,10 @@ class Browser{
         this.access_token = response.body.access_token;
         this.refresh_token = response.body.refresh_token;
         this.headers['Authorization'] = this.token_type + ' ' + this.access_token;
-        console.log(response.headers['content-type']);
     }
 
     isStillAuthenticated(response){
-        if(response.statusCode === 401 && 'application/problem+json' === response.headers['content-type'] && response.body.indexOf('access_denied') !== -1){
-            this.lastRequest = response.req;
-            console.log(this.lastRequest);
+        if(response.statusCode === 401 && 'application/problem+json' === response.headers['content-type']){
             // noinspection JSIgnoredPromiseFromCall
             this.getAccessToken();
 
@@ -54,14 +51,16 @@ class Browser{
         return response;
     }
 
-    get(path, headers = {}){
+    async get(path, headers = {}) {
+        this.lastRequest = {
+            url: this.baseUri + path,
+            method: 'GET',
+            headers: Helper.extend(this.headers, headers),
+            parse: 'json'
+        };
+
         return this.isStillAuthenticated(
-            this.browser({
-                url: this.baseUri + path,
-                method: 'GET',
-                headers: extend(this.headers, headers),
-                parse: 'json'
-            })
+            await this.browser(this.lastRequest)
         )
     }
 

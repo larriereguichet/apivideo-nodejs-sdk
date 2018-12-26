@@ -32,5 +32,5 @@ class Videos extends AbstractBaseApi{
 
         return video;
     }
-
 }
+module.exports = Videos;
