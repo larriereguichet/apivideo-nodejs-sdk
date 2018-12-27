@@ -6,7 +6,7 @@ class Browser{
     constructor(baseUri){
         this.baseUri = baseUri;
         this.browser = p;
-        this.headers = [];
+        this.headers = {};
         this.lastRequest = null;
     }
 
@@ -38,20 +38,36 @@ class Browser{
         this.token_type = response.body.token_type;
         this.access_token = response.body.access_token;
         this.refresh_token = response.body.refresh_token;
-        this.headers['Authorization'] = this.token_type + ' ' + this.access_token;
+        this.headers['Authorization'] = 'Authorization: ' + this.token_type + ' ' + this.access_token;
+        console.log(this.headers);
     }
 
-    isStillAuthenticated(response){
+    async isStillAuthenticated(response){
         if(response.statusCode === 401 && 'application/problem+json' === response.headers['content-type']){
-            // noinspection JSIgnoredPromiseFromCall
-            this.getAccessToken();
 
+            console.log('ko');
+            let lastRequest = this.lastRequest;
+            // noinspection JSIgnoredPromiseFromCall
+            await this.getAccessToken();
+
+            let headers = lastRequest.headers;
+            for(let key in headers){
+                if(headers.hasOwnProperty(key)){
+                   if(key === 'Authorization'){
+                       delete headers.key;
+                   }
+                }
+            }
+            headers['Authorization'] = 'Authorization: ' + this.headers['Authorization'];
+            lastRequest.headers = headers;
+            response =  await this.browser(this.lastRequest);
         }
 
         return response;
     }
 
     async get(path, headers = {}) {
+        console.log(this.headers, headers, Helper.extend(this.headers, headers));
         this.lastRequest = {
             url: this.baseUri + path,
             method: 'GET',

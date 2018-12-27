@@ -2,15 +2,15 @@ const AbstractBaseApi = require('./abstractBaseApi');
 const Video = require('../Model/video');
 const Browser = require("../Browser/browser");
 
-class Videos extends AbstractBaseApi{
+class Videos{
 
     constructor(browser){
-        super(browser);
+        this.browser = browser;
         this.chunkSize = 64 * 1024 * 1024;
     }
 
-    get(videoId){
-        let response = this.browser.get('/videos/' + videoId);
+    async get(videoId){
+        let response = await this.browser.get('/videos/' + videoId);
         if(!Browser.isSuccessfull(response)){
             return null;
         }

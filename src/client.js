@@ -11,8 +11,8 @@ class Client{
         }
         this.browser = new Browser(this.baseUri);
         this.browser.authenticate(this.username, this.apiKey);
-
         this.videos = new Videos(this.browser);
+
     }
 }
 
