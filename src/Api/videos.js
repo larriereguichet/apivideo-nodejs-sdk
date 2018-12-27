@@ -9,8 +9,9 @@ class Videos{
         this.chunkSize = 64 * 1024 * 1024;
     }
 
-    async get(videoId){
-        let response = await this.browser.get('/videos/' + videoId);
+    get(videoId){
+        console.log(this.browser);
+        let response = this.browser.get('/videos/' + videoId);
         if(!Browser.isSuccessfull(response)){
             return null;
         }
