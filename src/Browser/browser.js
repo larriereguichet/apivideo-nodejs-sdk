@@ -2,90 +2,117 @@ const p = require('phin');
 const Helper = require('../Utils/helper');
 const request = require('request');
 
-class Browser{
 
-    constructor(baseUri){
-        this.baseUri = baseUri;
-        this.browser = p;
-        this.headers = {};
-        this.lastRequest = null;
-    }
 
-    authenticate(username, apiKey) {
-        this.username = username;
-        this.apiKey = apiKey;
+let Browser = function(username, apiKey, baseUri){
 
-        // noinspection JSIgnoredPromiseFromCall
-        this.getAccessToken();
-    }
+    this.username = username;
+    this.apiKey = apiKey;
+    this.baseUri = baseUri;
+    this.token_type = 'Bearer';
+    this.access_token = null;
+    this.refresh_token = null;
+    this.headers = {};
+    this.lastRequest = null;
 
-    getAccessToken(){
+    this.getAccessToken = function(){
         let that = this;
-        request.post({
-            url: this.baseUri + '/token',
-            body: {
-                "username": this.username,
-                "password": this.apiKey
-            },
-            json: true
-        }, function (error, response, body) {
-            if(response.statusCode >= 400){
-                throw 'Authentication Failed'
-            }
-            this.token_type = body.token_type;
-            this.access_token = body.access_token;
-            this.refresh_token = body.refresh_token;
-            that.headers['Authorization'] = 'Authorization: ' + this.token_type + ' ' + this.access_token;
+        return new Promise(function (resolve, reject) {
+            let token = {};
+            request.post({
+                url: that.baseUri + '/token',
+                body: {
+                    "username": that.username,
+                    "password": that.apiKey
+                },
+                json: true
+            }, function (error, response, body) {
+                if(error){
+                    reject(error);
+                }else{
+                    if (response.statusCode >= 400) {
+                        throw 'Authentication Failed'
+                    }
+                    token = that.setAccessToken(body.token_type, body.access_token, body.refresh_token);
+                    resolve(token);
+                }
+            });
         });
 
-    }
+    };
 
-    isStillAuthenticated(response){
-        if(response.statusCode === 401 && 'application/problem+json' === response.headers['content-type']){
+    this.setAccessToken = function(token_type, access_token, refresh_token){
+        this.token_type = token_type;
+        this.access_token = access_token;
+        this.refresh_token = refresh_token;
+
+        return {
+            token_type : this.token_type,
+            access_token : this.access_token,
+            refresh_token : this.refresh_token
+        }
+    };
+
+    this.isStillAuthenticated = async function (response) {
+        let that = this;
+        if (response.statusCode === 401 && 'application/problem+json' === response.headers['content-type']) {
             let lastRequest = this.lastRequest;
             // noinspection JSIgnoredPromiseFromCall
-            this.getAccessToken();
-
+            let token = await this.getAccessToken();
             let headers = lastRequest.headers;
-            for(let key in headers){
-                if(headers.hasOwnProperty(key)){
-                   if(key === 'Authorization'){
-                       delete headers.key;
-                   }
+            for (let key in headers) {
+                if (headers.hasOwnProperty(key)) {
+                    if (key === 'Authorization') {
+                        delete headers.key;
+                    }
                 }
             }
-            headers['Authorization'] = 'Authorization: ' + this.headers['Authorization'];
+            headers['Authorization'] = token.token_type + ' ' + token.access_token;
             lastRequest.headers = headers;
-            request(lastRequest, function (error, resp, body) {
-                response = resp;
+
+            return new Promise(function (resolve, reject) {
+                request(lastRequest, function (error, resp, body) {
+                    if(error){
+                        reject(error);
+                    }else{
+                        resolve(resp);
+                    }
+                });
             });
         }
 
         return response;
-    }
+    };
+};
 
-    get(path, headers = {}) {
-        let that = this;
+Browser.prototype.get = function(path, headers = {}) {
+    let self = this;
+
+    this.lastRequest = {
+        url: this.baseUri + path,
+        method: 'GET',
+        headers: Helper.extend(this.headers, headers),
+        json: true
+    };
+
+    return new Promise(function (resolve, reject) {
+        request(self.lastRequest, async function (error, response, body) {
+            if (error) {
+                reject(error);
+            }else{
+                let result = await self.isStillAuthenticated(response);
+                resolve(result);
+            }
+        });
+    })
 
 
-        console.log(that.headers);
-        // that.lastRequest = {
-        //     url: this.baseUri + path,
-        //     method: 'GET',
-        //     headers: Helper.extend(this.headers, headers),
-        //     json: true
-        // };
-        //
-        // request(that.lastRequest, function (error, response, body) {
-        //     return that.isStillAuthenticated(response);
-        // });
 
+};
 
-    }
-
-    static isSuccessfull(response) {
+Browser.prototype.isSuccessfull = function(response) {
         return response.statusCode >= 200 && response.statusCode < 300;
-    }
-}
+};
+
 
 module.exports = Browser;
