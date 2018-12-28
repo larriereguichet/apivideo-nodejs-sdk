@@ -1,5 +1,4 @@
-const p = require('phin');
-const Helper = require('../Utils/helper');
+const array_merge = require('locutus/php/array/array_merge');
 const request = require('request');
 
 
@@ -91,7 +90,7 @@ Browser.prototype.get = function(path, headers = {}) {
     this.lastRequest = {
         url: this.baseUri + path,
         method: 'GET',
-        headers: Helper.extend(this.headers, headers),
+        headers: array_merge(this.headers, headers),
         json: true
     };
 
@@ -105,9 +104,29 @@ Browser.prototype.get = function(path, headers = {}) {
             }
         });
     })
+};
 
+Browser.prototype.post = function(path, headers = {}, content = {}) {
+    let self = this;
 
+    this.lastRequest = {
+        url: this.baseUri + path,
+        method: 'POST',
+        headers: array_merge(this.headers, headers),
+        body: content,
+        json: true
+    };
 
+    return new Promise(function (resolve, reject) {
+        request(self.lastRequest, async function (error, response, body) {
+            if (error) {
+                reject(error);
+            }else{
+                let result = await self.isStillAuthenticated(response);
+                resolve(result);
+            }
+        });
+    })
 };
 
 Browser.prototype.isSuccessfull = function(response) {
