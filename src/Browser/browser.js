@@ -1,5 +1,6 @@
 const array_merge = require('locutus/php/array/array_merge');
 const request = require('request');
+const fs = require('fs');
 
 
 
@@ -12,6 +13,7 @@ let Browser = function(username, apiKey, baseUri){
     this.access_token = null;
     this.refresh_token = null;
     this.headers = {};
+    this.baseRequest = request.defaults();
     this.lastRequest = null;
 
     this.getAccessToken = function(){
@@ -30,7 +32,7 @@ let Browser = function(username, apiKey, baseUri){
                     reject(error);
                 }else{
                     if (response.statusCode >= 400) {
-                        throw 'Authentication Failed'
+                        throw 'Authentication Failed';
                     }
                     token = that.setAccessToken(body.token_type, body.access_token, body.refresh_token);
                     resolve(token);
@@ -44,7 +46,6 @@ let Browser = function(username, apiKey, baseUri){
         this.token_type = token_type;
         this.access_token = access_token;
         this.refresh_token = refresh_token;
-
         return {
             token_type : this.token_type,
             access_token : this.access_token,
@@ -67,10 +68,11 @@ let Browser = function(username, apiKey, baseUri){
                 }
             }
             headers['Authorization'] = token.token_type + ' ' + token.access_token;
+            this.headers['Authorization'] = token.token_type + ' ' + token.access_token;
             lastRequest.headers = headers;
 
             return new Promise(function (resolve, reject) {
-                request(lastRequest, function (error, resp, body) {
+                that.baseRequest(lastRequest, function (error, resp, body) {
                     if(error){
                         reject(error);
                     }else{
@@ -95,7 +97,7 @@ Browser.prototype.get = function(path, headers = {}) {
     };
 
     return new Promise(function (resolve, reject) {
-        request(self.lastRequest, async function (error, response, body) {
+        self.baseRequest(self.lastRequest, async function (error, response, body) {
             if (error) {
                 reject(error);
             }else{
@@ -118,10 +120,35 @@ Browser.prototype.post = function(path, headers = {}, content = {}) {
     };
 
     return new Promise(function (resolve, reject) {
-        request(self.lastRequest, async function (error, response, body) {
+        self.baseRequest(self.lastRequest, async function (error, response, body) {
             if (error) {
                 reject(error);
             }else{
+                let result = await self.isStillAuthenticated(response);
+                resolve(result);
+            }
+        });
+    })
+};
+
+Browser.prototype.submit = async function (path, source, headers = {}) {
+    let self = this;
+    this.lastRequest = {
+        url: this.baseUri + path,
+        method: 'POST',
+        headers: array_merge(this.headers, headers),
+        formData: {
+            file: fs.createReadStream(source)
+        },
+        json: true
+    };
+
+    return new Promise(function (resolve, reject) {
+        self.baseRequest(self.lastRequest, async function (error, response, body) {
+            if (error) {
+                console.error(error);
+                reject(error);
+            } else {
                 let result = await self.isStillAuthenticated(response);
                 resolve(result);
             }

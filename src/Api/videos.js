@@ -4,12 +4,15 @@ const Browser = require("../Browser/browser");
 const array_merge = require('locutus/php/array/array_merge');
 const array_map = require('locutus/php/array/array_map');
 const call_user_func_array = require('locutus/php/funchand/call_user_func_array');
-const Helper = require('../Utils/helper');
+const fs = require('fs');
+const path = require('path');
+const os = require ('os');
+const tempname = require ('tempnam');
 
 let Videos = function(browser) {
 
     this.browser = browser;
-    this.chunkSize = 64 * 1024 * 1024;
+    this.chunkSize = 10 * 1024 * 1024;
 
     this.get = async function (videoId) {
         let that = this;
@@ -83,19 +86,109 @@ let Videos = function(browser) {
 
     this.upload = async function (source, properties = {}, videoId = null) {
         let that = this;
-        let response = await this.browser.post(
-            '/videos',
-            {},
-            array_merge(properties, {title: title})
-        );
 
-        return new Promise(function (resolve, reject) {
-            if(!that.browser.isSuccessfull(response)){
-                reject(response);
-            }else{
-                let video = that.cast(response.body);
-                resolve(video);
+        if(!fs.existsSync(source)){
+            throw source + ' must be a readable source file';
+        }
+
+        if(null === videoId){
+            console.log('Create video before upload');
+            if (typeof properties.title === 'undefined') {
+                properties.title = path.basename(source);
             }
+            let video = await this.create(properties.title, properties);
+            videoId = video.videoId;
+            console.log('videoId returned after creation '+videoId);
+        }
+
+        let length = fs.statSync(source).size;
+        console.log('File size to upload '+length);
+
+        if(0 >= length){
+            throw  source + 'is empty';
+        }
+
+        // Upload in a single request when file is small enough
+        if(this.chunkSize > length){
+            console.log('Upload in a single request');
+            let response = await this.browser.submit(
+                '/videos/' + videoId + '/source',
+                source
+            );
+            return new Promise(function (resolve, reject) {
+                if(!that.browser.isSuccessfull(response)){
+                    reject(response);
+                }else{
+                    let video = that.cast(response.body);
+                    resolve(video);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+
+
+
+        let readableStream = fs.createReadStream(source, {
+            highWaterMark: this.chunkSize
+        });
+        
+        let copiedBytes = 0;
+        let lastResponse = null;
+
+        console.log('Upload in range request from '+readableStream.path);
+
+        let from = copiedBytes;
+        readableStream.on('readable', async function () {
+            let chunkPath = tempname.tempnamSync(os.tmpdir(), 'upload-chunk-');
+            console.log('chunkPath ' + chunkPath);
+            let chunkStream = fs.createWriteStream(chunkPath, {
+                flags: 'w+'
+            });
+            readableStream.pipe(chunkStream);
+            let chunk;
+            from = copiedBytes;
+            console.log('Reading file');
+            while (null !== (chunk = readableStream.read(that.chunkSize))) {
+                console.log('Read file ' + chunk.length);
+                copiedBytes += chunk.length;
+                console.log('Range from ' + from + ' to ' + copiedBytes + ' of ' + length);
+                console.log(chunkStream.path);
+                let response = await that.browser.submit(
+                    '/videos/' + videoId + '/source',
+                    chunkStream.path,
+                    {
+                        'Content-Range': 'bytes ' + from + '-' + (copiedBytes - 1) + '/' + length
+                    }
+                ).catch(function (error) {
+                    console.log(error);
+                });
+                lastResponse = new Promise(function (resolve, reject) {
+                    console.log(response.statusCode);
+                    if (response.statusCode >= 400) {
+                        reject(response);
+                    } else {
+                        resolve(response);
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+
+        });
+
+        readableStream.on('end', function f() {
+            return new Promise(function (resolve, reject) {
+                if(null === lastResponse){
+                    reject(lastResponse);
+                }else{
+                    let video = that.cast(lastResponse.body);
+                    resolve(video);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         });
     };
 
