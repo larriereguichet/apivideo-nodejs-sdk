@@ -1,6 +1,4 @@
-const AbstractBaseApi = require('./abstractBaseApi');
 const Video = require('../Model/video');
-const Browser = require("../Browser/browser");
 const array_merge = require('locutus/php/array/array_merge');
 const array_map = require('locutus/php/array/array_map');
 const call_user_func_array = require('locutus/php/funchand/call_user_func_array');
@@ -8,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require ('os');
 const tempname = require ('tempnam');
+const http_build_query = require('locutus/php/url/http_build_query');
 
 let Videos = function(browser) {
 
@@ -55,26 +54,40 @@ let Videos = function(browser) {
         let allVideos = [];
         let pagination = {};
         do {
-            let response = await this.browser.get('/videos/' + videoId);
+            let response = await this.browser.get('/videos?' + http_build_query(params));
 
-            let results = new Promise(function (resolve) {
-                if(that.browser.isSuccessfull(response)){
-                    resolve(response.body);
+            if(that.browser.isSuccessfull(response)){
+                let results = response.body;
+                let videos = results.data;
+                allVideos.push(that.castAll(videos));
+
+                if(typeof parameters.currentPage !== 'undefined'){
+                    break;
                 }
-            });
 
-            let videos = results.data;
-            allVideos.push(this.castAll(videos));
-
-            pagination = results.pagination;
-            pagination.currentPage++;
-            params.currentPage = pagination.currentPage;
+                pagination = results.pagination;
+                pagination.currentPage++;
+                params.currentPage = pagination.currentPage;
+            }
 
         } while (pagination.pagesTotal > pagination.currentPage);
 
-        allVideos = call_user_func_array('array_merge', allVideos);
-
-        return allVideos;
+        return new Promise(async function (resolve, reject) {
+            try{
+                let videos = [];
+                if(allVideos.hasOwnProperty(0)){
+                    videos = allVideos[0];
+                }
+                for(let x=1; x < allVideos.length; x++){
+                    if(allVideos.hasOwnProperty(x)){
+                        array_merge(videos, allVideos[x]);
+                    }
+                }
+                resolve(videos);
+            }catch (e) {
+                reject(e);
+            }
+        });
 
     };
 
@@ -184,10 +197,24 @@ let Videos = function(browser) {
 };
 
 Videos.prototype.castAll = function(collection) {
-    return array_map(this.cast(), collection);
+    return array_map(function(data) {
+        let video = new Video();
+        video.videoId = data.videoId;
+        video.title = data.title;
+        video.description = data.description;
+        video.public = data.public;
+        video.tags = data.tags;
+        video.metadata = data.metadata;
+        video.source = data.source;
+        video.publishedAt = data.publishedAt;
+        video.assets = data.assets;
+
+        return video;
+    }, collection);
 };
 
 Videos.prototype.cast = function(data) {
+    console.log(data);
     let video = new Video();
     video.videoId = data.videoId;
     video.title = data.title;

@@ -8,7 +8,7 @@ let client = new Client({
     baseUri: 'https://ws-staging.api.video'
 });
 
-let video = client.videos.upload('/home/antho/Bureau/source.mp4');
+let video = client.videos.search();
 video.then(function (result) {
     console.log(result);
 });
