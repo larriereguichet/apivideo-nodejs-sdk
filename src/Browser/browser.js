@@ -55,6 +55,7 @@ let Browser = function(username, apiKey, baseUri){
 
     this.isStillAuthenticated = async function (response) {
         let that = this;
+
         if (response.statusCode === 401 && 'application/problem+json' === response.headers['content-type']) {
             let lastRequest = this.lastRequest;
             // noinspection JSIgnoredPromiseFromCall
@@ -70,9 +71,12 @@ let Browser = function(username, apiKey, baseUri){
             headers['Authorization'] = token.token_type + ' ' + token.access_token;
             this.headers['Authorization'] = token.token_type + ' ' + token.access_token;
             lastRequest.headers = headers;
-
-            return new Promise(function (resolve, reject) {
+            if((typeof lastRequest.formData !== 'undefined')){
+                lastRequest.formData.file = fs.createReadStream(lastRequest.formData.file.path);
+            }
+            response = new Promise(function (resolve, reject) {
                 that.baseRequest(lastRequest, function (error, resp, body) {
+                    //console.log(resp);
                     if(error){
                         reject(error);
                     }else{

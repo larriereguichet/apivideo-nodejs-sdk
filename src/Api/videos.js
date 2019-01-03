@@ -11,7 +11,7 @@ const http_build_query = require('locutus/php/url/http_build_query');
 let Videos = function(browser) {
 
     this.browser = browser;
-    this.chunkSize = 10 * 1024 * 1024;
+    this.chunkSize = 64 * 1024 * 1024;
 
     this.get = async function (videoId) {
         let that = this;
@@ -189,6 +189,38 @@ let Videos = function(browser) {
                     resolve(video);
                 }
             });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
+
+    this.uploadThumbnail = async function (source, videoId) {
+        let that = this;
+
+        if(!fs.existsSync(source)){
+            throw source + ' must be a readable source file';
+        }
+
+        let length = fs.statSync(source).size;
+        console.log('File size to upload '+length);
+
+        if(0 >= length){
+            throw  source + 'is empty';
+        }
+
+        let response = await this.browser.submit(
+            '/videos/' + videoId + '/thumbnail',
+            source
+        );
+        console.log(response);
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                let video = that.cast(response.body);
+                resolve(video);
+            }
         }).catch(function (error) {
             console.log(error);
         });
