@@ -24,6 +24,8 @@ let Videos = function(browser) {
                 let video = that.cast(response.body);
                 resolve(video);
             }
+        }).catch(function (e) {
+            console.log(e.statusCode);
         });
     };
 
@@ -226,6 +228,95 @@ let Videos = function(browser) {
         });
     };
 
+    this.update = async function (videoId, properties = {}) {
+        let that = this;
+        let response = await this.browser.patch(
+            '/videos/' + videoId,
+            {},
+            properties
+        );
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                let video = that.cast(response.body);
+                resolve(video);
+            }
+        });
+    };
+
+    this.makePublic = async function (videoId) {
+        let that = this;
+        let response = await this.browser.patch(
+            '/videos/' + videoId,
+            {},
+            {public: true}
+        );
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                let video = that.cast(response.body);
+                resolve(video);
+            }
+        });
+    };
+
+    this.makePrivate = async function (videoId) {
+        let that = this;
+        let response = await this.browser.patch(
+            '/videos/' + videoId,
+            {},
+            {public: false}
+        );
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                let video = that.cast(response.body);
+                resolve(video);
+            }
+        });
+    };
+
+    this.updateThumbnailWithTimecode = async function (videoId, timecode) {
+        let that = this;
+        if(!timecode){
+            throw 'Timecode is empty';
+        }
+        let response = await this.browser.patch(
+            '/videos/' + videoId + '/thumbnail',
+            {},
+            {timecode: timecode}
+        );
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                let video = that.cast(response.body);
+                resolve(video);
+            }
+        });
+    };
+
+    this.delete = async function (videoId) {
+        let that = this;
+
+        let response = await this.browser.delete( '/videos/' + videoId);
+
+        return new Promise(function (resolve, reject) {
+            if(!that.browser.isSuccessfull(response)){
+                reject(response);
+            }else{
+                resolve(response.statusCode);
+            }
+        });
+    };
+
 };
 
 Videos.prototype.castAll = function(collection) {
@@ -246,7 +337,9 @@ Videos.prototype.castAll = function(collection) {
 };
 
 Videos.prototype.cast = function(data) {
-    console.log(data);
+    if(!data){
+        return null;
+    }
     let video = new Video();
     video.videoId = data.videoId;
     video.title = data.title;

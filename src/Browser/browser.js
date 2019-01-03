@@ -135,6 +135,29 @@ Browser.prototype.post = function(path, headers = {}, content = {}) {
     })
 };
 
+Browser.prototype.patch = function(path, headers = {}, content = {}) {
+    let self = this;
+
+    this.lastRequest = {
+        url: this.baseUri + path,
+        method: 'PATCH',
+        headers: array_merge(this.headers, headers),
+        body: content,
+        json: true
+    };
+
+    return new Promise(function (resolve, reject) {
+        self.baseRequest(self.lastRequest, async function (error, response, body) {
+            if (error) {
+                reject(error);
+            }else{
+                let result = await self.isStillAuthenticated(response);
+                resolve(result);
+            }
+        });
+    })
+};
+
 Browser.prototype.submit = async function (path, source, headers = {}) {
     let self = this;
     this.lastRequest = {
@@ -153,6 +176,28 @@ Browser.prototype.submit = async function (path, source, headers = {}) {
                 console.error(error);
                 reject(error);
             } else {
+                let result = await self.isStillAuthenticated(response);
+                resolve(result);
+            }
+        });
+    })
+};
+
+Browser.prototype.delete = function(path, headers = {}) {
+    let self = this;
+
+    this.lastRequest = {
+        url: this.baseUri + path,
+        method: 'DELETE',
+        headers: array_merge(this.headers, headers),
+        json: true
+    };
+
+    return new Promise(function (resolve, reject) {
+        self.baseRequest(self.lastRequest, async function (error, response, body) {
+            if (error) {
+                reject(error);
+            }else{
                 let result = await self.isStillAuthenticated(response);
                 resolve(result);
             }
