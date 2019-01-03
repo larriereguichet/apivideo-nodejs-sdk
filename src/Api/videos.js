@@ -127,68 +127,57 @@ let Videos = function(browser) {
             });
         }
 
-
-
         let readableStream = fs.createReadStream(source, {
             highWaterMark: this.chunkSize
         });
         
-        let copiedBytes = 0;
-        let lastResponse = null;
-
         console.log('Upload in range request from '+readableStream.path);
 
-        let from = copiedBytes;
+        let chunks = [];
         readableStream.on('readable', async function () {
             let chunkPath = tempname.tempnamSync(os.tmpdir(), 'upload-chunk-');
-            console.log('chunkPath ' + chunkPath);
-            let chunkStream = fs.createWriteStream(chunkPath, {
-                flags: 'w+'
-            });
-            readableStream.pipe(chunkStream);
             let chunk;
-            from = copiedBytes;
-            console.log('Reading file');
-            while (null !== (chunk = readableStream.read(that.chunkSize))) {
-                console.log('Read file ' + chunk.length);
-                copiedBytes += chunk.length;
-                console.log('Range from ' + from + ' to ' + copiedBytes + ' of ' + length);
-                console.log(chunkStream.path);
-                let response = await that.browser.submit(
-                    '/videos/' + videoId + '/source',
-                    chunkStream.path,
-                    {
-                        'Content-Range': 'bytes ' + from + '-' + (copiedBytes - 1) + '/' + length
-                    }
-                ).catch(function (error) {
-                    console.log(error);
+            while (null !== (chunk = readableStream.read(that.chunkSize))){
+                fs.writeFileSync(chunkPath, chunk,{
+                    flags: 'w+'
                 });
-                lastResponse = new Promise(function (resolve, reject) {
-                    console.log(response.statusCode);
-                    if (response.statusCode >= 400) {
-                        reject(response);
-                    } else {
-                        resolve(response);
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                chunks.push(chunkPath);
             }
-
 
         });
 
-        readableStream.on('end', function f() {
-            return new Promise(function (resolve, reject) {
-                if(null === lastResponse){
+        let copiedBytes = 0;
+        return new Promise(async function (resolve, reject) {
+            let lastResponse = null;
+            await readableStream.on('end', async function () {
+                for (let key in chunks) {
+                    if (chunks.hasOwnProperty(key)) {
+                        let chunk = chunks[key];
+                        console.log('Try reading chunk file ' + chunk);
+                        let chunkFile = fs.readFileSync(chunk);
+                        let from = copiedBytes;
+                        copiedBytes += chunkFile.length;
+                        lastResponse = await that.browser.submit(
+                            '/videos/' + videoId + '/source',
+                            chunk,
+                            {
+                                'Content-Range': 'bytes ' + from + '-' + (copiedBytes - 1) + '/' + length
+                            }
+                        ).catch(function (error) {
+                            console.log(error);
+                        });
+                        fs.unlinkSync(chunk);
+                    }
+                }
+                if (null === lastResponse) {
                     reject(lastResponse);
-                }else{
+                } else {
                     let video = that.cast(lastResponse.body);
                     resolve(video);
                 }
-            }).catch(function (error) {
-                console.log(error);
             });
+        }).catch(function (error) {
+            console.log(error);
         });
     };
 

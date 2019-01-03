@@ -9,9 +9,6 @@ let client = new Client({
 });
 
 let video = client.videos.upload('/home/antho/Bureau/source.mp4');
-
 video.then(function (result) {
     console.log(result);
-}).catch(function (error) {
-    console.log(error);
 });
