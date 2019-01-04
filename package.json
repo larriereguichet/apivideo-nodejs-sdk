@@ -2,13 +2,13 @@
   "name": "nodejs-sdk",
   "version": "1.0.0",
   "description": "Nodejs SDK for api.video",
-  "main": "src/client.js",
+  "main": "lib/client.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "src/"
+    "lib/"
   ],
   "author": "",
   "license": "ISC",
