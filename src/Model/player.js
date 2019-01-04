@@ -1,37 +1,28 @@
 class Player {
     constructor() {
         this.playerId = null;
+        this.shapeMargin = null;
+        this.shapeRadius = null;
+        this.shapeAspect = null;
+        this.shapeBackgroundTop = null;
+        this.shapeBackgroundBottom = null;
+        this.text = null;
+        this.link = null;
+        this.linkHover = null;
+        this.linkActive = null;
+        this.trackPlayed = null;
+        this.trackUnplayed = null;
+        this.trackBackground = null;
+        this.backgroundTop = null;
+        this.backgroundBottom = null;
+        this.backgroundText = null;
+        this.language = null;
         this.enableApi = null;
-        this.hideTitle = null;
-        this.controlLogo = null;
-        this.buttonRadius = null;
-        this.controlMargin = null;
-        this.forceAutoplay = null;
-        this.controlLogoUrl = null;
         this.enableControls = null;
-        this.panelTextHover = null;
-        this.scrollbarThumb = null;
-        this.scrollbarTrack = null;
-        this.buttonTextHover = null;
-        this.enableInfoPanel = null;
-        this.panelTextActive = null;
-        this.buttonTextActive = null;
-        this.enableSharePanel = null;
-        this.buttonLightEffect = null;
-        this.panelTextInactive = null;
-        this.trackbarPlayedTop = null;
-        this.trackbarTextColor = null;
-        this.buttonTextInactive = null;
-        this.panelBackgroundTop = null;
-        this.buttonBackgroundTop = null;
-        this.enableDownloadPanel = null;
-        this.enableSettingsPanel = null;
-        this.trackbarPlayedBottom = null;
-        this.panelBackgroundBottom = null;
-        this.trackbarBackgroundTop = null;
-        this.buttonBackgroundBottom = null;
-        this.trackbarBackgroundBottom = null;
+        this.forceAutoplay = null;
+        this.hideTitle = null;
+        this.forceLoop = null;
     }
 }
 
-module.exports = Player = null;
+module.exports = Player;
