@@ -1,7 +1,6 @@
 const Video = require('../Model/video');
 const array_merge = require('locutus/php/array/array_merge');
 const array_map = require('locutus/php/array/array_map');
-const call_user_func_array = require('locutus/php/funchand/call_user_func_array');
 const fs = require('fs');
 const path = require('path');
 const os = require ('os');
@@ -214,7 +213,6 @@ let Videos = function(browser) {
             '/videos/' + videoId + '/thumbnail',
             source
         );
-        console.log(response);
 
         return new Promise(function (resolve, reject) {
             if(!that.browser.isSuccessfull(response)){
