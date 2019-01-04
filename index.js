@@ -8,9 +8,3 @@ let client = new Client({
     baseUri: 'https://ws-staging.api.video'
 });
 
-let video = client.videos.get('vi7KQjXmmzwcsmIz3KQf6BOJ');
-
-
-video.then(function (result) {
-    console.log(result);
-});
