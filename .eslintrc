@@ -1,0 +1,16 @@
+{
+  "extends": ["eslint:recommended", "airbnb-base"],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "no-console": 0,
+    "strict": 0,
+    "no-cond-assign": ["error", "except-parens"]
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  }
+}

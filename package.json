@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "private": true,
   "scripts": {
+    "lint": "./node_modules/eslint/bin/eslint.js --fix ./lib",
     "test": "npm run mocha"
   },
   "files": [
@@ -18,7 +19,12 @@
     "tempnam": "^1.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-react": "^7.12.3",
     "mocha": "^5.2.0",
     "sinon": "^7.2.2"
   }
