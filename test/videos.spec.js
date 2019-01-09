@@ -1,12 +1,4 @@
 const apiVideo = require('../lib');
-const Videos = require('../lib/Api/videos');
-const Lives = require('../lib/Api/lives');
-const Players = require('../lib/Api/players');
-const Captions = require('../lib/Api/captions');
-const Tokens = require('../lib/Api/tokens');
-const AnalyticsVideo = require('../lib/Api/analyticsVideo');
-const AnalyticsLive = require('../lib/Api/analyticsLive');
-const fs = require('fs');
 const path = require('path');
 var expect = require('chai').expect;
 
