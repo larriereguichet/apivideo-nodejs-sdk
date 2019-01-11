@@ -6,7 +6,7 @@ const Captions = require('../lib/Api/captions');
 const Tokens = require('../lib/Api/tokens');
 const AnalyticsVideo = require('../lib/Api/analyticsVideo');
 const AnalyticsLive = require('../lib/Api/analyticsLive');
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
 describe('apiVideo.Client', () => {
   it('should use the Browser class', () => {

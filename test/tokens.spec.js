@@ -1,5 +1,5 @@
 const apiVideo = require('../lib');
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
 describe('Tokens ressource', () => {
   describe('generate', () => {

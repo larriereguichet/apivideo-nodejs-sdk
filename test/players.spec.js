@@ -1,6 +1,5 @@
 const apiVideo = require('../lib');
-const path = require('path');
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
 describe('Players ressource', () => {
   describe('create', () => {
