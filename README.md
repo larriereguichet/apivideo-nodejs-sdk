@@ -11,13 +11,13 @@ This documentation helps you use the corresponding NodeJS client.
 Install:
 
 ```shell
- npm install api-video/nodejs-sdk
+ npm install @api.video/nodejs-sdk
 ```
 
 Usage:
 
 ```javascript
-const apiVideo = require('lib');
+const apiVideo = require('@api.video/nodejs-sdk');
 
 
 
