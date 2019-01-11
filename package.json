@@ -1,9 +1,8 @@
 {
-  "name": "nodejs-sdk",
+  "name": "@api.video/nodejs-sdk",
   "version": "1.0.0",
   "description": "Nodejs SDK for api.video",
   "main": "lib/index.js",
-  "private": true,
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --fix ./lib",
     "test": "npm run mocha"
