@@ -1,5 +1,7 @@
 # api.video NodeJS SDK
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/badges/quality-score.png?b=master&s=93531b005797e4b690cdbbe8459be0f75f1f3e6f)](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/badges/build.png?b=master&s=e01c30ae25aa2b0472299c1d961faf67e48bda65)](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/build-status/master)
 
 The [api.video](https://api.video/) web-service helps you put video on the web without the hassle. 
 This documentation helps you use the corresponding NodeJS client.
