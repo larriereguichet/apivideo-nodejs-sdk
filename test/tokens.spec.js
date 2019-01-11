@@ -5,7 +5,9 @@ describe('Tokens ressource', () => {
   describe('generate', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      client.tokens.generate();
+      client.tokens.generate().catch((error) => {
+        console.log(error);
+      });
       expect(client.tokens.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/tokens',
         method: 'POST',

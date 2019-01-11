@@ -10,7 +10,9 @@ describe('Videos ressource', () => {
       let properties = {
         description: 'Video test'
       };
-      client.videos.create(title, properties);
+      client.videos.create(title, properties).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
@@ -28,7 +30,9 @@ describe('Videos ressource', () => {
         description: 'Video test 2',
         tag: ['test1', 'test2']
       };
-      client.videos.update('vix1x1x1x1x1x1x1x1x1x', properties);
+      client.videos.update('vix1x1x1x1x1x1x1x1x1x', properties).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -42,7 +46,9 @@ describe('Videos ressource', () => {
   describe('get', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      client.videos.get('vix1x1x1x1x1x1x1x1x1x');
+      client.videos.get('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'GET',
@@ -59,7 +65,9 @@ describe('Videos ressource', () => {
         currentPage : 1,
         pageSize: 25
       };
-      client.videos.search(parameters);
+      client.videos.search(parameters).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?currentPage=1&pageSize=25',
         method: 'GET',
@@ -73,7 +81,9 @@ describe('Videos ressource', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
       let parameters = {};
-      client.videos.search(parameters);
+      client.videos.search(parameters).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?pageSize=100&currentPage=1',
         method: 'GET',
@@ -91,7 +101,9 @@ describe('Videos ressource', () => {
       let properties = {
         description: 'Video test'
       };
-      client.videos.download(source, title, properties);
+      client.videos.download(source, title, properties).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
@@ -107,7 +119,9 @@ describe('Videos ressource', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
       let source = path.join(__dirname, 'data/small.webm');
       let videoId = 'vix1x1x1x1x1x1x1x1x1x';
-      client.videos.upload(source, {}, videoId);
+      client.videos.upload(source, {}, videoId).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/source');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
       expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
@@ -120,7 +134,9 @@ describe('Videos ressource', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
       let source = path.join(__dirname, 'data/test.png');
       let videoId = 'vix1x1x1x1x1x1x1x1x1x';
-      client.videos.uploadThumbnail(source, videoId);
+      client.videos.uploadThumbnail(source, videoId).catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
       expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
@@ -134,7 +150,9 @@ describe('Videos ressource', () => {
       let properties = {
         public: true
       };
-      client.videos.makePublic('vix1x1x1x1x1x1x1x1x1x');
+      client.videos.makePublic('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -151,7 +169,9 @@ describe('Videos ressource', () => {
       let properties = {
         public: false
       };
-      client.videos.makePrivate('vix1x1x1x1x1x1x1x1x1x');
+      client.videos.makePrivate('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -168,7 +188,9 @@ describe('Videos ressource', () => {
       let properties = {
         timecode: '00:10:05.02'
       };
-      client.videos.updateThumbnailWithTimecode('vix1x1x1x1x1x1x1x1x1x', '00:10:05.02');
+      client.videos.updateThumbnailWithTimecode('vix1x1x1x1x1x1x1x1x1x', '00:10:05.02').catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail',
         method: 'PATCH',
@@ -182,7 +204,9 @@ describe('Videos ressource', () => {
   describe('delete', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      client.videos.delete('vix1x1x1x1x1x1x1x1x1x');
+      client.videos.delete('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'DELETE',

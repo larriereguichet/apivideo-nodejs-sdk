@@ -29,7 +29,9 @@ describe('Players ressource', () => {
         "hideTitle": false,
         "forceLoop": false
       };
-      client.players.create(properties);
+      client.players.create(properties).catch((error) => {
+        console.log(error);
+      });
       expect(client.players.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/players',
         method: 'POST',
@@ -66,7 +68,9 @@ describe('Players ressource', () => {
         "hideTitle": true,
         "forceLoop": true
       };
-      client.players.update('plx1x1x1x1x1x1x1x1x1x', properties);
+      client.players.update('plx1x1x1x1x1x1x1x1x1x', properties).catch((error) => {
+        console.log(error);
+      });
       expect(client.players.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -80,7 +84,9 @@ describe('Players ressource', () => {
   describe('get', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      client.players.get('plx1x1x1x1x1x1x1x1x1x');
+      client.players.get('plx1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
       expect(client.players.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
         method: 'GET',
@@ -97,7 +103,9 @@ describe('Players ressource', () => {
         currentPage : 1,
         pageSize: 25
       };
-      client.players.search(parameters);
+      client.players.search(parameters).catch((error) => {
+        console.log(error);
+      });
       expect(client.players.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/players?currentPage=1&pageSize=25',
         method: 'GET',
@@ -111,7 +119,9 @@ describe('Players ressource', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
       let parameters = {};
-      client.players.search(parameters);
+      client.players.search(parameters).catch((error) => {
+        console.log(error);
+      });
       expect(client.players.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/players?pageSize=100&currentPage=1',
         method: 'GET',
@@ -121,18 +131,21 @@ describe('Players ressource', () => {
     });
   });
 
-  describe('delete', () => {
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      client.players.delete('plx1x1x1x1x1x1x1x1x1x');
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
-        method: 'DELETE',
-        headers: {},
-        json: true
-      });
-    });
-  });
+  // Disabled test because endpoint not exist yet
+  // describe('delete', () => {
+  //   it('Sends good request', (done) => {
+  //     const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
+  //     client.players.delete('plx1x1x1x1x1x1x1x1x1x').catch((error) => {
+  //       console.log(error.message || error.body);
+  //     });
+  //     expect(client.players.browser.lastRequest).to.deep.equal({
+  //       url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
+  //       method: 'DELETE',
+  //       headers: {},
+  //       json: true
+  //     });
+  //   });
+  // });
 
   describe('cast', () => {
     it('Should return player object', () => {
