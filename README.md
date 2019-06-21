@@ -21,8 +21,11 @@ const apiVideo = require('@api.video/nodejs-sdk');
 
 
 
-// Create client and authenticate
+// Create client for Production and authenticate
 const client = new apiVideo.Client({username: 'xxx', apiKey: 'xxx'});
+
+// Create client for Sandbox and authenticate
+const client = new apiVideo.ClientSandbox({username: 'xxx', apiKey: 'xxx'});
 
 // Create and upload a video ressource
 let result = client.videos.upload('/path/to/video.mp4', {title: 'Course #4 - Part B'});
