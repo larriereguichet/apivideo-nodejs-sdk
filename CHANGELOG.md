@@ -2,6 +2,9 @@
 All changes to this project will be documented in this file.
 
 
+## [1.2.0] - 2019-07-19
+- Replace old authentication rounting
+
 ## [1.1.0] - 2019-06-21
 - Constructors for production and sandbox environments
 
