@@ -1,14 +1,14 @@
-const apiVideo = require('../lib');
 const path = require('path');
-const expect = require('chai').expect;
+const { expect } = require('chai');
+const apiVideo = require('../lib');
 
 describe('Lives ressource', () => {
   describe('create', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let name = 'Live test';
-      let properties = {
-        record: false
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const name = 'Live test';
+      const properties = {
+        record: false,
       };
       client.lives.create(name, properties);
       expect(client.lives.browser.lastRequest).to.deep.equal({
@@ -16,16 +16,16 @@ describe('Lives ressource', () => {
         method: 'POST',
         headers: {},
         body: { record: false, name: 'Live test' },
-        json: true
+        json: true,
       });
     });
   });
 
   describe('update', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let properties = {
-        record: true
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const properties = {
+        record: true,
       };
       client.lives.update('lix1x1x1x1x1x1x1x1x1x', properties);
       expect(client.lives.browser.lastRequest).to.deep.equal({
@@ -33,60 +33,60 @@ describe('Lives ressource', () => {
         method: 'PATCH',
         headers: {},
         body: { record: true },
-        json: true
+        json: true,
       });
     });
   });
 
   describe('get', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
+      const client = new apiVideo.Client({ apiKey: 'test' });
       client.lives.get('lix1x1x1x1x1x1x1x1x1x');
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x',
         method: 'GET',
         headers: {},
-        json: true
+        json: true,
       });
     });
   });
 
   describe('Search with parameters', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let parameters = {
-        currentPage : 1,
-        pageSize: 25
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {
+        currentPage: 1,
+        pageSize: 25,
       };
       client.lives.search(parameters);
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams?currentPage=1&pageSize=25',
         method: 'GET',
         headers: {},
-        json: true
+        json: true,
       });
     });
   });
 
   describe('Search without parameters', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let parameters = {};
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {};
       client.lives.search(parameters);
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams?pageSize=100&currentPage=1',
         method: 'GET',
         headers: {},
-        json: true
+        json: true,
       });
     });
   });
 
   describe('Upload thumbnail', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let source = path.join(__dirname, 'data/test.png');
-      let liveId = 'lix1x1x1x1x1x1x1x1x1x';
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const source = path.join(__dirname, 'data/test.png');
+      const liveId = 'lix1x1x1x1x1x1x1x1x1x';
       client.lives.uploadThumbnail(source, liveId);
       expect(client.lives.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x/thumbnail');
       expect(client.lives.browser.lastRequest).to.deep.property('method', 'POST');
@@ -97,36 +97,35 @@ describe('Lives ressource', () => {
 
   describe('delete', () => {
     it('Sends good request', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
+      const client = new apiVideo.Client({ apiKey: 'test' });
       client.lives.delete('lix1x1x1x1x1x1x1x1x1x');
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x',
         method: 'DELETE',
         headers: {},
-        json: true
+        json: true,
       });
     });
   });
 
   describe('cast', () => {
     it('Should return live object', () => {
-      const client = new apiVideo.Client({username: 'test', apiKey: 'test'});
-      let data = {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const data = {
         liveStreamId: 'lix1x1x1x1x1x1x1x1x1x',
         streamKey: '6xx3x5x2-2x2x-468x-906x-xx3xx9xx79x7',
         name: 'Live test',
         record: true,
         broadcasting: false,
         assets: {
-          "iframe": "<iframe src=\"https://embed.api.video/live/lix1x1x1x1x1x1x1x1x1x\" width=\"100%\" height=\"100%\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"\"></iframe>",
-          "player": "https://embed.api.video/live/lix1x1x1x1x1x1x1x1x1x",
-          "hls": "https://live.api.video/live/lix1x1x1x1x1x1x1x1x1x.m3u8",
-          "thumbnail": "https://cdn.api.video/live/lix1x1x1x1x1x1x1x1x1x/thumbnail.jpg"
-        }
+          iframe: '<iframe src="https://embed.api.video/live/lix1x1x1x1x1x1x1x1x1x" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen=""></iframe>',
+          player: 'https://embed.api.video/live/lix1x1x1x1x1x1x1x1x1x',
+          hls: 'https://live.api.video/live/lix1x1x1x1x1x1x1x1x1x.m3u8',
+          thumbnail: 'https://cdn.api.video/live/lix1x1x1x1x1x1x1x1x1x/thumbnail.jpg',
+        },
       };
-      let live = client.lives.cast(data);
+      const live = client.lives.cast(data);
       expect(live).to.deep.equal(data);
     });
   });
-
 });

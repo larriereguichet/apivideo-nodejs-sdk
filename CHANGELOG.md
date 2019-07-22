@@ -2,6 +2,10 @@
 All changes to this project will be documented in this file.
 
 
+## [1.3.0] - 2019-07-22
+- Refactoring Analytics models
+- Add AnalyticsSessionEvent resource
+
 ## [1.2.0] - 2019-07-19
 - Replace old authentication rounting
 

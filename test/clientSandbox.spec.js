@@ -1,4 +1,4 @@
-const apiVideo = require('../lib');
+const expect = require('chai').expect;
 const Videos = require('../lib/Api/videos');
 const Lives = require('../lib/Api/lives');
 const Players = require('../lib/Api/players');
@@ -6,7 +6,7 @@ const Captions = require('../lib/Api/captions');
 const Tokens = require('../lib/Api/tokens');
 const AnalyticsVideo = require('../lib/Api/analyticsVideo');
 const AnalyticsLive = require('../lib/Api/analyticsLive');
-const expect = require('chai').expect;
+const apiVideo = require('../lib');
 
 describe('apiVideo.ClientSandbox', () => {
   it('should use the Browser class', () => {

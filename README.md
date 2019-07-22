@@ -22,10 +22,10 @@ const apiVideo = require('@api.video/nodejs-sdk');
 
 
 // Create client for Production and authenticate
-const client = new apiVideo.Client({username: 'xxx', apiKey: 'xxx'});
+const client = new apiVideo.Client({ apiKey: 'xxx' });
 
 // Create client for Sandbox and authenticate
-const client = new apiVideo.ClientSandbox({username: 'xxx', apiKey: 'xxx'});
+const client = new apiVideo.ClientSandbox({ apiKey: 'xxx' });
 
 // Create and upload a video ressource
 let result = client.videos.upload('/path/to/video.mp4', {title: 'Course #4 - Part B'});
@@ -217,6 +217,14 @@ result.then(function(analyticsLive) {
   }
 });
 
+// Get Analytics Session Events for a sessionId
+let result = client.analyticsSessionEvent.get('psXxxxXxxxXxxxxxxxXX');
+
+result.then(function(analyticSessionEvent) {
+  console.log(analyticSessionEvent.events);
+});
+
+
 // Generate a token for delegated upload
 let result = client.tokens.generate();
 result.then(function(token) {
@@ -235,7 +243,7 @@ result.then(function(token) {
  *********************************
  *********************************
 */
-const client = new apiVideo.Client({username: 'xxx', apiKey: 'xxx'});
+const client = new apiVideo.Client({ apiKey: 'xxx' });
 
 // Show a video
 client.videos.get(videoId);
@@ -380,6 +388,9 @@ client.analyticsLive.get(liveStreamId, period);
 // Search lives analytics between period, filter with tags or metadata
 client.analyticsLive.search(parameters);
 
+// Get analytics session events
+client.analyticsLive.get(sessionId, parameters);
+
 
 ```
 
@@ -482,7 +493,15 @@ client.analyticsLive.search(parameters);
 |    **-**                            |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
 |    **search**                       |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>Pagination/Filters:</li><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li><li>Period:</li><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
-                                          
+                                                     
+### AnalyticsSessionEvent                         
+                                      
+|     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values/Format**   |         
+| :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
+|    **get**                          |   **-**               |    **-**                   |   **-**                |      **-**             |
+|    **-**                            |   sessionId(string)   |    Session identifier      |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   parameters(array)   |    Search parameters       |   :x:                  |      <ul><li>currentPage(int)</li><li>pageSize(int)</li></ul>   |
+                                              
 ### Tokens                         
                                       
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
