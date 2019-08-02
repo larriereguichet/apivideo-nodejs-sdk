@@ -2,8 +2,11 @@ const path = require('path');
 const { expect } = require('chai');
 const apiVideo = require('../lib');
 
+// eslint-disable-next-line no-undef
 describe('Videos ressource', () => {
+  // eslint-disable-next-line no-undef
   describe('create', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const title = 'Video test';
@@ -23,7 +26,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('update', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
@@ -43,7 +48,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('get', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.videos.get('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
@@ -58,7 +65,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('Search with parameters', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const parameters = {
@@ -77,7 +86,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('Search without parameters', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const parameters = {};
@@ -93,7 +104,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('Download', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const source = 'https://www.example.com/video.mp4';
@@ -114,7 +127,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('Upload', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const source = path.join(__dirname, 'data/small.webm');
@@ -129,7 +144,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('Upload thumbnail', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const source = path.join(__dirname, 'data/test.png');
@@ -144,7 +161,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('makePublic', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
@@ -163,7 +182,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('makePrivate', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
@@ -182,7 +203,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('updateThumbnailWithTimecode', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
@@ -201,7 +224,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('delete', () => {
+    // eslint-disable-next-line no-undef
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.videos.delete('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
@@ -216,7 +241,9 @@ describe('Videos ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   describe('cast', () => {
+    // eslint-disable-next-line no-undef
     it('Should return video object', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const data = {
@@ -229,6 +256,53 @@ describe('Videos ressource', () => {
         source: {
           type: 'upload',
           uri: '/videos/vix1x1x1x1x1x1x1x1x1x/source',
+          status: 'uploaded',
+          filesize: 10498677,
+          receivedBytes: [
+            {
+              to: 5242879,
+              from: 0,
+              total: 10498677,
+            },
+            {
+              to: 10485759,
+              from: 5242880,
+              total: 10498677,
+            },
+            {
+              to: 10498676,
+              from: 10485760,
+              total: 10498677,
+            },
+          ],
+        },
+        encoding: {
+          playable: true,
+          qualities: [
+            {
+              quality: '360p',
+              status: 'encoded',
+            },
+            {
+              quality: '480p',
+              status: 'encoded',
+            },
+            {
+              quality: '720p',
+              status: 'encoded',
+            },
+          ],
+          metadata: {
+            width: 1280,
+            height: 720,
+            bitrate: 937.464,
+            duration: 63,
+            framerate: 25,
+            samplerate: 48000,
+            video_codec: 'h264',
+            audio_codec: 'aac',
+            aspect_ratio: '16:9',
+          },
         },
         publishedAt: '2019-01-01T00:00:00+02:00',
         captions: {},
