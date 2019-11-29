@@ -66,6 +66,23 @@ describe('Videos ressource', () => {
   });
 
   // eslint-disable-next-line no-undef
+  describe('getStatus', () => {
+    // eslint-disable-next-line no-undef
+    it('Sends good request', () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      client.videos.getStatus('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
+      expect(client.videos.browser.lastRequest).to.deep.equal({
+        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/status',
+        method: 'GET',
+        headers: {},
+        json: true,
+      });
+    });
+  });
+
+  // eslint-disable-next-line no-undef
   describe('Search with parameters', () => {
     // eslint-disable-next-line no-undef
     it('Sends good request', () => {
@@ -251,28 +268,51 @@ describe('Videos ressource', () => {
         title: 'Video test',
         description: 'Video test',
         public: true,
+        panoramic: false,
+        mp4Support: false,
         tags: [],
         metadata: [],
         source: {
           type: 'upload',
           uri: '/videos/vix1x1x1x1x1x1x1x1x1x/source',
+        },
+        publishedAt: '2019-01-01T00:00:00+02:00',
+        assets: {
+          iframe: '<iframe src="https://embed.api.video/vod/vix1x1x1x1x1x1x1x1x1x" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen=""></iframe>',
+          player: 'https://embed.api.video/vod/vix1x1x1x1x1x1x1x1x1x',
+          hls: 'https://cdn.api.video/vod/vix1x1x1x1x1x1x1x1x1x/hls/manifest.m3u8',
+          thumbnail: 'https://cdn.api.video/vod/vix1x1x1x1x1x1x1x1x1x/thumbnail.jpg',
+        },
+      };
+      const video = client.videos.cast(data);
+      expect(video).to.deep.equal(data);
+    });
+  });
+
+  // eslint-disable-next-line no-undef
+  describe('castStatus', () => {
+    // eslint-disable-next-line no-undef
+    it('Should return videoStatus object', () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const data = {
+        ingest: {
           status: 'uploaded',
-          filesize: 10498677,
+          filesize: 273579401,
           receivedBytes: [
             {
-              to: 5242879,
+              to: 134217727,
               from: 0,
-              total: 10498677,
+              total: 273579401,
             },
             {
-              to: 10485759,
-              from: 5242880,
-              total: 10498677,
+              to: 268435455,
+              from: 134217728,
+              total: 273579401,
             },
             {
-              to: 10498676,
-              from: 10485760,
-              total: 10498677,
+              to: 273579400,
+              from: 268435456,
+              total: 273579401,
             },
           ],
         },
@@ -291,30 +331,30 @@ describe('Videos ressource', () => {
               quality: '720p',
               status: 'encoded',
             },
+            {
+              quality: '1080p',
+              status: 'encoding',
+            },
+            {
+              quality: '2160p',
+              status: 'waiting',
+            },
           ],
           metadata: {
-            width: 1280,
-            height: 720,
-            bitrate: 937.464,
-            duration: 63,
-            framerate: 25,
+            width: 424,
+            height: 240,
+            bitrate: 411.218,
+            duration: 4176,
+            framerate: 24,
             samplerate: 48000,
-            video_codec: 'h264',
-            audio_codec: 'aac',
-            aspect_ratio: '16:9',
+            videoCodec: 'h264',
+            audioCodec: 'aac',
+            aspectRatio: '16/9',
           },
         },
-        publishedAt: '2019-01-01T00:00:00+02:00',
-        captions: {},
-        assets: {
-          iframe: '<iframe src="https://embed.api.video/vod/vix1x1x1x1x1x1x1x1x1x" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen=""></iframe>',
-          player: 'https://embed.api.video/vod/vix1x1x1x1x1x1x1x1x1x',
-          hls: 'https://cdn.api.video/vod/vix1x1x1x1x1x1x1x1x1x/hls/manifest.m3u8',
-          thumbnail: 'https://cdn.api.video/vod/vix1x1x1x1x1x1x1x1x1x/thumbnail.jpg',
-        },
       };
-      const video = client.videos.cast(data);
-      expect(video).to.deep.equal(data);
+      const videoStatus = client.videos.castStatus(data);
+      expect(videoStatus).to.deep.equal(data);
     });
   });
 });
