@@ -404,6 +404,7 @@ client.analyticsLive.get(sessionId, parameters);
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
 |    **get**                          |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
+|    **getStatus**                    |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **search**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li><li>keyword(string)</li><li>tags(string&#124;array(string))</li><li>metadata(array(string))</li></ul>   |
 |    **create**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
