@@ -1,6 +1,13 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.5.0] - 2019-12-18
+- Player logo support
+
+## [1.4.0] - 2019-11-29
+- Panoramic support
+- Mp4 support
+- Video Status support
 
 ## [1.3.0] - 2019-07-22
 - Refactoring Analytics models

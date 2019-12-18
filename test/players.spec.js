@@ -1,3 +1,4 @@
+const path = require('path');
 const { expect } = require('chai');
 const apiVideo = require('../lib');
 
@@ -130,6 +131,24 @@ describe('Players ressource', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
+  describe('Upload logo', () => {
+    // eslint-disable-next-line no-undef
+    it('Sends good request', () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const source = path.join(__dirname, 'data/test.png');
+      const playerId = 'plx1x1x1x1x1x1x1x1x1x';
+      const link = 'https://api.video';
+      client.players.uploadLogo(source, playerId, link).catch((error) => {
+        console.log(error);
+      });
+      expect(client.players.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x/logo');
+      expect(client.players.browser.lastRequest).to.deep.property('method', 'POST');
+      expect(client.players.browser.lastRequest).to.deep.property('headers', {});
+      expect(client.players.browser.lastRequest.formData).to.be.an('object');
+    });
+  });
+
   describe('delete', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
@@ -171,6 +190,7 @@ describe('Players ressource', () => {
         forceAutoplay: false,
         hideTitle: false,
         forceLoop: false,
+        logo: {},
       };
       const player = client.players.cast(data);
       expect(player).to.deep.equal(data);

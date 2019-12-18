@@ -135,6 +135,15 @@ result.then(function(player) {
 });
 
 
+// Upload a player logo
+let result = client.players.uploadLogo('/path/to/logo.png', 'plXxxxXxxxXxxxxxxxXX', 'https://api.video');
+
+result.then(function(player) {
+  console.log(player.logo);
+});
+
+
+
 let result = client.players.delete('plXxxxXxxxXxxxxxxxXX');
 result.then(function(statusCode) {
   console.log(statusCode);
@@ -248,6 +257,9 @@ const client = new apiVideo.Client({ apiKey: 'xxx' });
 // Show a video
 client.videos.get(videoId);
 
+// Show a video status
+client.videos.getStatus(videoId);
+
 // List or search videos
 client.videos.search(parameters = {});
 
@@ -333,6 +345,9 @@ client.players.search(parameters = {});
 client.players.create(properties = {});
 
 // Update player's properties
+client.players.uploadLogo(source, playerId, link);
+
+// Update player's properties
 client.players.update(playerId, properties);
 
 // Delete a player
@@ -409,7 +424,7 @@ client.analyticsLive.get(sessionId, parameters);
 |    **-**                            |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li><li>keyword(string)</li><li>tags(string&#124;array(string))</li><li>metadata(array(string))</li></ul>   |
 |    **create**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   title(string)       |    Video title             |   :heavy_check_mark:   |      **-**             |
-|    **-**                            |   properties(object)   |    Video properties        |   :x:                  |      <ul><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li></ul>  |
+|    **-**                            |   properties(object)   |    Video properties        |   :x:                  |      <ul><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li><li>panoramic(bool)</li><li>public(bool)</li><li>mp4Support(bool)</li></ul>  |
 |    **upload**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   source(string)      |    Video media file        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   properties(object)   |    Video properties        |   :x:                  |      <ul><li>title(string)</li><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li></ul>   |
@@ -422,7 +437,7 @@ client.analyticsLive.get(sessionId, parameters);
 |    **-**                            |   timecode(string)    |    Video timecode          |   :heavy_check_mark:   |      00:00:00.00<br/>(hours:minutes:seconds.frames)       |
 |    **update**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   videoId()string     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
-|    **-**                            |   properties(object)   |    Video properties        |   :heavy_check_mark:   |      <ul><li>title(string)</li><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li></ul>  |
+|    **-**                            |   properties(object)   |    Video properties        |   :heavy_check_mark:   |      <ul><li>title(string)</li><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li><li>panoramic(bool)</li><li>public(bool)</li><li>mp4Support(bool)</li></ul>  |
 |    **makePublic**                   |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **makePrivate**                  |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **delete**                       |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
@@ -433,6 +448,10 @@ client.analyticsLive.get(sessionId, parameters);
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------: |
 |    **get**                          |   playerId(string)    |    Player identifier       |   :heavy_check_mark:   |      **-**             |
 |    **create**                       |   properties(object)   |    Player properties       |   :x:                  |      <ul><li>shapeMargin(int)</li><li>shapeRadius(int)</li><li>shapeAspect(string)</li><li>shapeBackgroundTop(string)</li><li>shapeBackgroundBottom(string)</li><li>text(string)</li><li>link(string)</li><li>linkHover(string)</li><li>linkActive(string)</li><li>trackPlayed(string)</li><li>trackUnplayed(string)</li><li>trackBackground(string)</li><li>backgroundTop(string)</li><li>backgroundBottom(string)</li><li>backgroundText(string)</li><li>enableApi(bool)</li><li>enableControls(bool)</li><li>forceAutoplay(bool)</li><li>hideTitle(bool)</li></ul>             |
+|    **uploadLogo**                   |   **-**               |    **-**                   |   **-**                |      **-**             |
+|    **-**                            |   source(string)      |    Logo file        |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   playerId(string)     |    Player identifier        |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   link(string)      |    Logo link        |   :heavy_check_mark:   |      **-**             |
 |    **search**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li></ul>   |
 |    **update**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
@@ -474,7 +493,7 @@ client.analyticsLive.get(sessionId, parameters);
 |    **-**                            |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
 |    **update**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   liveStreamId()string     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
-|    **-**                            |   properties(object)   |    Live properties        |   :heavy_check_mark:   |      <ul><li>title(string)</li><li>description(string)</li><li>tags(array(string))</li><li>playerId(string)</li><li>metadata(array(<br/>array(<br/>'key' => 'Key1', <br/>'value' => 'value1'<br/>), <br/>array(<br/>'key' => 'Key2',<br/> 'value' => 'value2'<br/>)<br/>)</li></ul>  |
+|    **-**                            |   properties(object)   |    Live properties        |   :heavy_check_mark:   |      <ul><li>name(string)</li><li>record(boolean)</li><li>playerId(string)</li></ul>  |
 |    **delete**                       |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
                                                      
 ### AnalyticsVideo                         
