@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.6.0] - 2019-01-15
+- Chapters support
+
 ## [1.5.0] - 2019-12-18
 - Player logo support
 

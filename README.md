@@ -180,6 +180,27 @@ result.then(function(statusCode) {
 }).catch(function(error) {
   console.error(error);
 });
+// Upload video chapter
+let result = client.chapters.upload('path/to/chapter.vtt', {videoId: 'viXxxxXxxxXxxxxxxxXX', language: 'en'});
+
+result.then(function(chapter) {
+  console.log(chapter.src);
+});
+
+// Get video chapter by language
+let result = client.chapters.get('viXxxxXxxxXxxxxxxxXX', 'en');
+
+result.then(function(chapter) {
+  console.log(chapter.src);
+});
+
+//Delete chapter by language
+let result = client.chapters.delete('viXxxxXxxxXxxxxxxxXX', 'en');
+result.then(function(statusCode) {
+  console.log(statusCode);
+}).catch(function(error) {
+  console.error(error);
+});
 
 // Create a live
 let result = client.lives.create('This is a live');
@@ -331,6 +352,25 @@ client.videos.captions.delete(videoId, language);
 
 /*
  *********************************
+ *         VIDEO CHAPTERS        *
+ *********************************
+*/
+
+// Get caption for a video
+client.videos.chapters.get(videoId, language);
+
+// Get all chapters for a video
+client.videos.chapters.getAll(videoId);
+
+// Upload a chapter file for a video (.vtt)
+client.videos.chapters.upload(source, properties);
+
+// Delete video's chapter
+client.videos.chapters.delete(videoId, language);
+
+
+/*
+ *********************************
  *         PLAYERS               *
  *********************************
 */
@@ -474,6 +514,21 @@ client.analyticsLive.get(sessionId, parameters);
 |    **-**                            |   videoId             |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   language  (string)  |    Language identifier     |   :heavy_check_mark:   |      2 letters (ex: en, fr)  |
 |    **-**                            |   isDefault (string)  |    Set default language    |   :heavy_check_mark:   |      true/false             |
+|    **delete**                       |   **-**              |    **-**                   |    -                   |      **-**             |
+|    **-**                            |   videoId             |    Video identifier        |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   language  (string)  |    Language identifier     |   :heavy_check_mark:   |      2 letters (ex: en, fr)  |
+                                      
+### Chapters                          
+                                      
+|     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |
+| :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------: |
+|    **get**                          |   **-**               |    **-**                   |    **-**               |      **-**             |
+|    **-**                            |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   language(string)    |    Language identifier     |   :heavy_check_mark:   |      2 letters (ex: en, fr) |
+|    **getAll**                       |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
+|    **upload**                       |   **-**               |    **-**                   |   -                    |      **-**             |
+|    **-**                            |   source(string)      |    Chapter file            |   :heavy_check_mark:   |      **-**             |
+|    **-**                            |   properties(string)  |    Chapter properties      |   :heavy_check_mark:   |      <ul><li>videoId(string)</li><li>language(string - 2 letters)</li></ul>   |
 |    **delete**                       |   **-**              |    **-**                   |    -                   |      **-**             |
 |    **-**                            |   videoId             |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   language  (string)  |    Language identifier     |   :heavy_check_mark:   |      2 letters (ex: en, fr)  |

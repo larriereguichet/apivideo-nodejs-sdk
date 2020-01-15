@@ -3,6 +3,7 @@ const Videos = require('../lib/Api/videos');
 const Lives = require('../lib/Api/lives');
 const Players = require('../lib/Api/players');
 const Captions = require('../lib/Api/captions');
+const Chapters = require('../lib/Api/chapters');
 const Tokens = require('../lib/Api/tokens');
 const AnalyticsVideo = require('../lib/Api/analyticsVideo');
 const AnalyticsLive = require('../lib/Api/analyticsLive');
@@ -28,6 +29,10 @@ describe('apiVideo.Client', () => {
   it('should use the Captions class', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
     expect(client.captions).instanceOf(Captions);
+  });
+  it('should use the Chapters class', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    expect(client.chapters).instanceOf(Chapters);
   });
   it('should use the Tokens class', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
