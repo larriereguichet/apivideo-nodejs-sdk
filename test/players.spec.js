@@ -149,6 +149,21 @@ describe('Players ressource', () => {
     });
   });
 
+  describe('deleteLogo', () => {
+    it('Sends good request', () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      client.players.deleteLogo('plx1x1x1x1x1x1x1x1x1x').catch((error) => {
+        console.log(error);
+      });
+      expect(client.players.browser.lastRequest).to.deep.equal({
+        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x/logo',
+        method: 'DELETE',
+        headers: {},
+        json: true,
+      });
+    });
+  });
+
   describe('delete', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });

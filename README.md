@@ -390,6 +390,9 @@ client.players.uploadLogo(source, playerId, link);
 // Update player's properties
 client.players.update(playerId, properties);
 
+// Delete a player logo
+client.players.deleteLogo(playerId);
+
 // Delete a player
 client.players.delete(playerId);
 
@@ -497,6 +500,7 @@ client.analyticsLive.get(sessionId, parameters);
 |    **update**                       |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   playerId(string)    |    Player identifier       |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   properties(object)   |    Player properties       |   :heavy_check_mark:   |      <ul><li>shapeMargin(int)</li><li>shapeRadius(int)</li><li>shapeAspect(string)</li><li>shapeBackgroundTop(string)</li><li>shapeBackgroundBottom(string)</li><li>text(string)</li><li>link(string)</li><li>linkHover(string)</li><li>linkActive(string)</li><li>trackPlayed(string)</li><li>trackUnplayed(string)</li><li>trackBackground(string)</li><li>backgroundTop(string)</li><li>backgroundBottom(string)</li><li>backgroundText(string)</li><li>enableApi(bool)</li><li>enableControls(bool)</li><li>forceAutoplay(bool)</li><li>hideTitle(bool)</li></ul>              |
+|    **deleteLogo**                       |   playerId(string)    |    Player identifier       |   :heavy_check_mark:   |      **-**             |
 |    **delete**                       |   playerId(string)    |    Player identifier       |   :heavy_check_mark:   |      **-**             |
                                       
 ### Captions                          
