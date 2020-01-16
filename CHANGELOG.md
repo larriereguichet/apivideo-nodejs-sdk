@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.1] - 2019-01-16
+- add Features to Account model
+
 ## [1.8.0] - 2019-01-16
 - add Account support
 
