@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.0] - 2019-01-16
+- add Account support
+
 ## [1.7.0] - 2019-01-15
 - delete player logo method
 

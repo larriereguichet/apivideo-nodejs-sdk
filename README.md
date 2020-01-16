@@ -586,6 +586,12 @@ client.analyticsLive.get(sessionId, parameters);
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
 |    **generate**                     |   **-**               | Token for delegated upload |   **-**                |      **-**             |
+
+### Account                         
+                                      
+|     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
+| :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
+|    **get**                     |   **-**               | Get account informations (quota) |   **-**                |      **-**             |
 ## More on api.video
 
 A full technical documentation is available on https://docs.api.video/
