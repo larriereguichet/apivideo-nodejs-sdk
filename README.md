@@ -119,7 +119,6 @@ let properties = {
   backgroundTop: "rgba(72, 4, 45, 1)",
   backgroundBottom: "rgba(94, 95, 89, 1)",
   backgroundText: "rgba(255, 255, 255, .95)",
-  language: "en",
   enableApi: true,
   enableControls: true,
   forceAutoplay: false,
