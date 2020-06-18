@@ -13,7 +13,7 @@
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --fix ./lib",
-    "test": "npm run mocha"
+    "test": "mocha"
   },
   "files": [
     "lib/"
