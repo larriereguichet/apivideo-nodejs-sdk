@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.3] - 2020-06-18
+- remove reference to npm
+
 ## [1.8.2] - 2019-01-23
 - remove unused language property on Player Model
 
