@@ -1,11 +1,20 @@
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const apiVideo = require('../lib');
+const AnalyticVideo = require('../lib/Model/Analytic/analyticVideo');
+const AnalyticData = require('../lib/Model/Analytic/analyticData');
+const sessionResponse = require('./api/session');
+const { ITEMS_TOTAL } = require('./api');
 
 describe('AnalyticsVideo ressource', () => {
   describe('get without period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x');
+      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?',
         method: 'GET',
@@ -13,11 +22,32 @@ describe('AnalyticsVideo ressource', () => {
         json: true,
       });
     });
+
+    it('Return an analytic video object', async () => {
+      const analyticVideo = await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x');
+      expect(analyticVideo).to.be.an('object');
+      expect(analyticVideo).to.have.keys(Object.keys(new AnalyticVideo()));
+      expect(analyticVideo.data).to.be.an('array');
+      analyticVideo.data.forEach(
+        analyticData => expect(analyticData).to.have.keys(Object.keys(new AnalyticData())),
+      );
+    });
+
+    it('Return all analytic data', async () => {
+      const analyticVideo = await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x');
+      expect(analyticVideo.data).to.be.an('array');
+      expect(analyticVideo.data).to.be.of.length(ITEMS_TOTAL);
+    });
   });
+
   describe('get with period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    it('Does not throw', async () => {
+      await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01');
+      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01').catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?period=2019-01',
         method: 'GET',
@@ -25,16 +55,37 @@ describe('AnalyticsVideo ressource', () => {
         json: true,
       });
     });
+
+    it('Return an analytic video object', async () => {
+      const period = '2019-01';
+      const videoId = 'vix1x1x1x1x1x1x1x1x1x';
+      const analyticVideo = await client.analyticsVideo.get(videoId, '2019-01');
+      expect(analyticVideo).to.be.an('object');
+      expect(analyticVideo).to.have.keys(Object.keys(new AnalyticVideo()));
+      expect(analyticVideo).to.have.property('videoId', videoId);
+      expect(analyticVideo).to.have.property('period', period);
+
+      expect(analyticVideo.data).to.be.an('array');
+      analyticVideo.data.forEach(
+        analyticData => expect(analyticData).to.have.keys(Object.keys(new AnalyticData())),
+      );
+    });
   });
 
   describe('Search with parameters without period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {
+      currentPage: 1,
+      pageSize: 25,
+    };
+
+    it('Does not throw', async () => {
+      await client.analyticsVideo
+        .search(parameters);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {
-        currentPage: 1,
-        pageSize: 25,
-      };
-      client.analyticsVideo.search(parameters);
+      client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25',
         method: 'GET',
@@ -42,17 +93,31 @@ describe('AnalyticsVideo ressource', () => {
         json: true,
       });
     });
+
+    it('Return an array of analytic video object', async () => {
+      const analyticsVideos = await client.analyticsVideo.search(parameters);
+      expect(analyticsVideos).to.be.an('array');
+      analyticsVideos.data.forEach(
+        analyticVideo => expect(analyticVideo).to.have.keys(Object.keys(new AnalyticVideo())),
+      );
+    });
   });
 
   describe('Search with parameters with period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {
+      currentPage: 1,
+      pageSize: 25,
+      period: '2019-01',
+    };
+
+    it('Does not throw', async () => {
+      await client.analyticsVideo
+        .search(parameters);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {
-        currentPage: 1,
-        pageSize: 25,
-        period: '2019-01',
-      };
-      client.analyticsVideo.search(parameters);
+      client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25&period=2019-01',
         method: 'GET',
@@ -63,10 +128,16 @@ describe('AnalyticsVideo ressource', () => {
   });
 
   describe('Search without parameters without period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {};
+
+    it('Does not throw', async () => {
+      await client.analyticsVideo
+        .search(parameters);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {};
-      client.analyticsVideo.search(parameters);
+      client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?pageSize=100&currentPage=1',
         method: 'GET',
@@ -77,18 +148,37 @@ describe('AnalyticsVideo ressource', () => {
   });
 
   describe('Search without parameters with period', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {
+      period: '2019-01',
+    };
+
+    it('Does not throw', async () => {
+      await client.analyticsVideo.search(parameters);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {
-        period: '2019-01',
-      };
-      client.analyticsVideo.search(parameters);
+      client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?period=2019-01&pageSize=100&currentPage=1',
         method: 'GET',
         headers: {},
         json: true,
       });
+    });
+  });
+
+  describe('Casting a session', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      expect(client.analyticsVideo.cast(sessionResponse)).to.not.throw();
+    });
+
+    it('Cast date fields to Date objects', () => {
+      const castedSession = client.analyticsVideo.cast(sessionResponse);
+      expect(castedSession).to.have.property('loadedAt').that.is.an.instanceof(Date);
+      expect(castedSession).to.have.property('endedAt').that.is.an.instanceof(Date);
     });
   });
 });
