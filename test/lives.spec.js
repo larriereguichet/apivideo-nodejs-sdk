@@ -1,16 +1,26 @@
 const path = require('path');
 const { expect } = require('chai');
 const apiVideo = require('../lib');
+const { ITEMS_TOTAL } = require('./api');
 
 describe('Lives ressource', () => {
   describe('create', () => {
+    it('Does not throw', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const name = 'Live test';
+      const properties = {
+        record: false,
+      };
+      await client.lives.create(name, properties);
+    });
+
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const name = 'Live test';
       const properties = {
         record: false,
       };
-      client.lives.create(name, properties);
+      client.lives.create(name, properties).catch(() => {});
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams',
         method: 'POST',
@@ -22,12 +32,20 @@ describe('Lives ressource', () => {
   });
 
   describe('update', () => {
+    it('Does not throw', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const properties = {
+        record: true,
+      };
+      await client.lives.update('lix1x1x1x1x1x1x1x1x1x', properties);
+    });
+
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
         record: true,
       };
-      client.lives.update('lix1x1x1x1x1x1x1x1x1x', properties);
+      client.lives.update('lix1x1x1x1x1x1x1x1x1x', properties).catch(() => {});
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -38,7 +56,7 @@ describe('Lives ressource', () => {
     });
   });
 
-  describe('get', () => {
+  describe('get', async () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.lives.get('lix1x1x1x1x1x1x1x1x1x');
@@ -49,9 +67,15 @@ describe('Lives ressource', () => {
         json: true,
       });
     });
+
+    it('Returns a live-stream', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const live = await client.lives.get('lix1x1x1x1x1x1x1x1x1x');
+      expect(live).to.have.property('liveStreamId');
+    });
   });
 
-  describe('Search with parameters', () => {
+  describe('Search first page', () => {
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const parameters = {
@@ -65,6 +89,26 @@ describe('Lives ressource', () => {
         headers: {},
         json: true,
       });
+    });
+
+    it('Returns an array', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {
+        currentPage: 1,
+        pageSize: 25,
+      };
+      const liveStreams = await client.lives.search(parameters);
+      expect(liveStreams).to.be.an.instanceOf(Array);
+    });
+
+    it('Returns only one page', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {
+        currentPage: 1,
+        pageSize: 25,
+      };
+      const liveStreams = await client.lives.search(parameters);
+      expect(liveStreams).to.be.of.length(parameters.pageSize);
     });
   });
 
@@ -80,14 +124,35 @@ describe('Lives ressource', () => {
         json: true,
       });
     });
+
+    it('Returns an array', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {};
+      const liveStreams = await client.lives.search(parameters);
+      expect(liveStreams).to.be.an.instanceOf(Array);
+    });
+
+    it('Returns all pages', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const parameters = {};
+      const liveStreams = await client.lives.search(parameters);
+      expect(liveStreams).to.be.of.length(ITEMS_TOTAL); // default pageSize is 100
+    });
   });
 
   describe('Upload thumbnail', () => {
+    it('Does not throw', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      const source = path.join(__dirname, 'data/test.png');
+      const liveId = 'lix1x1x1x1x1x1x1x1x1x';
+      await client.lives.uploadThumbnail(source, liveId);
+    });
+
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const source = path.join(__dirname, 'data/test.png');
       const liveId = 'lix1x1x1x1x1x1x1x1x1x';
-      client.lives.uploadThumbnail(source, liveId);
+      client.lives.uploadThumbnail(source, liveId).catch(() => {});
       expect(client.lives.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x/thumbnail');
       expect(client.lives.browser.lastRequest).to.deep.property('method', 'POST');
       expect(client.lives.browser.lastRequest).to.deep.property('headers', {});
@@ -96,9 +161,14 @@ describe('Lives ressource', () => {
   });
 
   describe('delete', () => {
+    it('Does not throw', async () => {
+      const client = new apiVideo.Client({ apiKey: 'test' });
+      await client.lives.delete('lix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
-      client.lives.delete('lix1x1x1x1x1x1x1x1x1x');
+      client.lives.delete('lix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.lives.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/live-streams/lix1x1x1x1x1x1x1x1x1x',
         method: 'DELETE',

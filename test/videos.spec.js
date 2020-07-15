@@ -1,21 +1,22 @@
 const path = require('path');
 const { expect } = require('chai');
 const apiVideo = require('../lib');
+const { ITEMS_TOTAL } = require('./api');
 
-// eslint-disable-next-line no-undef
 describe('Videos ressource', () => {
-  // eslint-disable-next-line no-undef
   describe('create', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const title = 'Video test';
+    const properties = {
+      description: 'Video test',
+    };
+
+    it('Does not throw', async () => {
+      await client.videos.create(title, properties);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const title = 'Video test';
-      const properties = {
-        description: 'Video test',
-      };
-      client.videos.create(title, properties).catch((error) => {
-        console.log(error);
-      });
+      client.videos.create(title, properties).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
@@ -26,18 +27,20 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
+
   describe('update', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const properties = {
+      description: 'Video test 2',
+      tag: ['test1', 'test2'],
+    };
+
+    it('Does not throw', async () => {
+      await client.videos.update('vix1x1x1x1x1x1x1x1x1x', properties);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const properties = {
-        description: 'Video test 2',
-        tag: ['test1', 'test2'],
-      };
-      client.videos.update('vix1x1x1x1x1x1x1x1x1x', properties).catch((error) => {
-        console.log(error);
-      });
+      client.videos.update('vix1x1x1x1x1x1x1x1x1x', properties).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -48,14 +51,16 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('get', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      await client.videos
+        .get('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.videos.get('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
-        console.log(error);
-      });
+      client.videos.get('vix1x1x1x1x1x1x1x1x1x');
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'GET',
@@ -63,16 +68,22 @@ describe('Videos ressource', () => {
         json: true,
       });
     });
+
+    it('Returns a video', async () => {
+      const video = await client.videos.get('vix1x1x1x1x1x1x1x1x1x');
+      expect(video).to.have.property('videoId');
+    });
   });
 
-  // eslint-disable-next-line no-undef
   describe('getStatus', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      await client.videos.getStatus('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.videos.getStatus('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
-        console.log(error);
-      });
+      client.videos.getStatus('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/status',
         method: 'GET',
@@ -82,18 +93,15 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
-  describe('Search with parameters', () => {
-    // eslint-disable-next-line no-undef
+  describe('Search with parameters (currentPage, pageSize)', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {
+      currentPage: 1,
+      pageSize: 25,
+    };
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {
-        currentPage: 1,
-        pageSize: 25,
-      };
-      client.videos.search(parameters).catch((error) => {
-        console.log(error);
-      });
+      client.videos.search(parameters).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?currentPage=1&pageSize=25',
         method: 'GET',
@@ -101,17 +109,20 @@ describe('Videos ressource', () => {
         json: true,
       });
     });
+
+    it('Retrieves only specified page ', async () => {
+      const videos = await client.videos.search(parameters);
+      expect(videos).to.be.an.instanceOf(Array);
+      expect(videos).to.have.lengthOf(parameters.pageSize);
+    });
   });
 
-  // eslint-disable-next-line no-undef
   describe('Search without parameters', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const parameters = {};
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const parameters = {};
-      client.videos.search(parameters).catch((error) => {
-        console.log(error);
-      });
+      client.videos.search(parameters);
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?pageSize=100&currentPage=1',
         method: 'GET',
@@ -119,21 +130,28 @@ describe('Videos ressource', () => {
         json: true,
       });
     });
+
+    it('Retrieves all pages ', async () => {
+      const videos = await client.videos.search(parameters);
+      expect(videos).to.be.an.instanceOf(Array);
+      expect(videos).to.have.lengthOf(ITEMS_TOTAL);
+    });
   });
 
-  // eslint-disable-next-line no-undef
   describe('Download', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const source = 'https://www.example.com/video.mp4';
+    const title = 'Video test';
+    const properties = {
+      description: 'Video test',
+    };
+
+    it('Does not throw', async () => {
+      await client.videos.download(source, title, properties);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const source = 'https://www.example.com/video.mp4';
-      const title = 'Video test';
-      const properties = {
-        description: 'Video test',
-      };
-      client.videos.download(source, title, properties).catch((error) => {
-        console.log(error);
-      });
+      client.videos.download(source, title, properties).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
@@ -144,16 +162,17 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('Upload', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const source = path.join(__dirname, 'data/small.webm');
+    const videoId = 'vix1x1x1x1x1x1x1x1x1x';
+
+    it('Does not throw', async () => {
+      await client.videos.upload(source, {}, videoId);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const source = path.join(__dirname, 'data/small.webm');
-      const videoId = 'vix1x1x1x1x1x1x1x1x1x';
-      client.videos.upload(source, {}, videoId).catch((error) => {
-        console.log(error);
-      });
+      client.videos.upload(source, {}, videoId).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/source');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
       expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
@@ -161,16 +180,17 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('Upload thumbnail', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const source = path.join(__dirname, 'data/test.png');
+    const videoId = 'vix1x1x1x1x1x1x1x1x1x';
+
+    it('Does not throw', async () => {
+      await client.videos.uploadThumbnail(source, videoId);
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const source = path.join(__dirname, 'data/test.png');
-      const videoId = 'vix1x1x1x1x1x1x1x1x1x';
-      client.videos.uploadThumbnail(source, videoId).catch((error) => {
-        console.log(error);
-      });
+      client.videos.uploadThumbnail(source, videoId).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
       expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
@@ -178,17 +198,18 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('makePublic', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const properties = {
+      public: true,
+    };
+
+    it('Does not throw', async () => {
+      await client.videos.makePublic('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const properties = {
-        public: true,
-      };
-      client.videos.makePublic('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
-        console.log(error);
-      });
+      client.videos.makePublic('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -199,17 +220,18 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('makePrivate', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      await client.videos.makePrivate('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
       const properties = {
         public: false,
       };
-      client.videos.makePrivate('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
-        console.log(error);
-      });
+      client.videos.makePrivate('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
@@ -220,17 +242,18 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('updateThumbnailWithTimecode', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    const properties = {
+      timecode: '00:10:05.02',
+    };
+
+    it('Does not throw', async () => {
+      await client.videos.updateThumbnailWithTimecode('vix1x1x1x1x1x1x1x1x1x', '00:10:05.02');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const properties = {
-        timecode: '00:10:05.02',
-      };
-      client.videos.updateThumbnailWithTimecode('vix1x1x1x1x1x1x1x1x1x', '00:10:05.02').catch((error) => {
-        console.log(error);
-      });
+      client.videos.updateThumbnailWithTimecode('vix1x1x1x1x1x1x1x1x1x', '00:10:05.02').catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail',
         method: 'PATCH',
@@ -241,14 +264,16 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
+
   describe('delete', () => {
-    // eslint-disable-next-line no-undef
+    const client = new apiVideo.Client({ apiKey: 'test' });
+
+    it('Does not throw', async () => {
+      await client.videos.delete('vix1x1x1x1x1x1x1x1x1x');
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.videos.delete('vix1x1x1x1x1x1x1x1x1x').catch((error) => {
-        console.log(error);
-      });
+      client.videos.delete('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'DELETE',
@@ -258,9 +283,8 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
+
   describe('cast', () => {
-    // eslint-disable-next-line no-undef
     it('Should return video object', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const data = {
@@ -289,9 +313,7 @@ describe('Videos ressource', () => {
     });
   });
 
-  // eslint-disable-next-line no-undef
   describe('castStatus', () => {
-    // eslint-disable-next-line no-undef
     it('Should return videoStatus object', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const data = {

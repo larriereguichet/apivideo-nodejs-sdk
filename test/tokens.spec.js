@@ -3,11 +3,13 @@ const apiVideo = require('../lib');
 
 describe('Tokens ressource', () => {
   describe('generate', () => {
+    const client = new apiVideo.Client({ apiKey: 'test' });
+    it('Does not throw', async () => {
+      await client.tokens.generate();
+    });
+
     it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.tokens.generate().catch((error) => {
-        console.log(error);
-      });
+      client.tokens.generate().catch(() => {});
       expect(client.tokens.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/tokens',
         method: 'POST',
