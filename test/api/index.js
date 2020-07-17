@@ -82,6 +82,7 @@ exports.mochaHooks = {
 
       // videos chapters
       .get('/videos/vix1x1x1x1x1x1x1x1x1x/chapters')
+      .query(true)
       .reply(200, createCollectionReply(chapter))
       .get('/videos/vix1x1x1x1x1x1x1x1x1x/chapters/en')
       .reply(200, createCollectionReply(chapter))

@@ -56,7 +56,7 @@ describe('Chapters ressource', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.chapters.getAll('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.chapters.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters',
+        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters?currentPage=1&pageSize=100',
         method: 'GET',
         headers: {},
         json: true,
@@ -73,7 +73,7 @@ describe('Chapters ressource', () => {
     it('Returns all chapters', async () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const chapters = await client.chapters.getAll('vix1x1x1x1x1x1x1x1x1x');
-      expect(chapters).to.have.lengthOf(ITEMS_TOTAL); // the default page size is 100
+      expect(chapters).to.have.lengthOf(ITEMS_TOTAL);
     });
   });
 
