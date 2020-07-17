@@ -4,9 +4,14 @@ const createCollection = item => ({
   itemsTotal,
 }) => {
   const pagesTotal = Math.ceil(itemsTotal / pageSize);
+
+  if (currentPage > pagesTotal) {
+    throw new Error(`Page ${currentPage} doesn't exist.`);
+  }
+
   const currentPageItems = currentPage === pagesTotal ? itemsTotal % pageSize : pageSize;
   return {
-    data: Array.from(Array(currentPageItems)).fill(Object.assign(item, { videoId: Math.random() })),
+    data: Array.from(Array(currentPageItems)).fill(item),
     pagination: {
       currentPage,
       currentPageItems,

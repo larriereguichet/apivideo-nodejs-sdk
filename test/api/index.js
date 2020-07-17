@@ -3,7 +3,7 @@ const url = require('url');
 const createCollection = require('./createCollection');
 const video = require('./video');
 const liveStream = require('./liveStream');
-const session = require('./session');
+const analyticData = require('./analyticData');
 const sessionEvent = require('./sessionEvent');
 const chapter = require('./chapter');
 const caption = require('./caption');
@@ -13,7 +13,7 @@ const BASE = 'https://ws.api.video';
 const ITEMS_TOTAL = 293;
 
 const fromEntries = (entries) => {
-  const params = { pagesTotal: 3 };
+  const params = {};
   for (const [key, value] of entries) {
     params[key] = Number(value);
   }
@@ -107,10 +107,10 @@ exports.mochaHooks = {
       // videos analytics
       .get('/analytics/videos/vix1x1x1x1x1x1x1x1x1x')
       .query(true)
-      .reply(200, createCollectionReply(session))
+      .reply(200, createCollectionReply(analyticData))
       .get('/analytics/videos')
       .query(true)
-      .reply(200, createCollectionReply(session))
+      .reply(200, createCollectionReply(analyticData))
 
       // sessions
       .get('/analytics/sessions/psx1x1x1x1x1x1x1x1x1x/events')
@@ -144,10 +144,10 @@ exports.mochaHooks = {
       // live-streams analytics
       .get('/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x')
       .query(true)
-      .reply(200, createCollectionReply(session))
+      .reply(200, createCollectionReply(analyticData))
       .get('/analytics/live-streams')
       .query(true)
-      .reply(200, createCollectionReply(session))
+      .reply(200, createCollectionReply(analyticData))
 
       // players
       .get('/players')

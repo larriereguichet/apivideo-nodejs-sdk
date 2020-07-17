@@ -3,7 +3,7 @@ const apiVideo = require('../lib');
 const AnalyticLive = require('../lib/Model/Analytic/analyticLive.js');
 const AnalyticData = require('../lib/Model/Analytic/analyticData.js');
 const { ITEMS_TOTAL } = require('./api');
-const sessionResponse = require('./api/session');
+const analyticDataResponse = require('./api/analyticData');
 
 describe('analyticsLive ressource', () => {
   describe('get without period', () => {
@@ -28,7 +28,7 @@ describe('analyticsLive ressource', () => {
       const analyticVideo = await client.analyticsLive.get(liveStreamId);
       expect(analyticVideo).to.be.an('object');
       expect(analyticVideo).to.have.keys(Object.keys(new AnalyticLive()));
-      expect(analyticVideo).to.have.property('videoId', liveStreamId);
+      expect(analyticVideo).to.have.property('liveStreamId', liveStreamId);
       expect(analyticVideo.data).to.be.an('array');
       analyticVideo.data.forEach(
         analyticData => expect(analyticData).to.have.keys(Object.keys(new AnalyticData())),
@@ -65,7 +65,7 @@ describe('analyticsLive ressource', () => {
       const analyticLive = await client.analyticsLive.get(liveStreamId, '2019-01');
       expect(analyticLive).to.be.an('object');
       expect(analyticLive).to.have.keys(Object.keys(new AnalyticLive()));
-      expect(analyticLive).to.have.property('videoId', liveStreamId);
+      expect(analyticLive).to.have.property('liveStreamId', liveStreamId);
       expect(analyticLive).to.have.property('period', period);
 
       expect(analyticLive.data).to.be.an('array');
@@ -163,17 +163,19 @@ describe('analyticsLive ressource', () => {
     });
   });
 
-  describe('Casting a session', () => {
+  describe('Casting analytic data', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
 
     it('Does not throw', async () => {
-      expect(client.analyticsLive.cast(sessionResponse)).to.not.throw();
+      expect(
+        client.analyticsLive.cast.bind(client.analyticsLive, analyticDataResponse),
+      ).to.not.throw();
     });
 
     it('Cast date fields to Date objects', () => {
-      const castedSession = client.analyticsLive.cast(sessionResponse);
-      expect(castedSession).to.have.property('loadedAt').that.is.an.instanceof(Date);
-      expect(castedSession).to.have.property('endedAt').that.is.an.instanceof(Date);
+      const analyticData = client.analyticsLive.cast(analyticDataResponse);
+      expect(analyticData.session).to.have.property('loadedAt').that.is.an.instanceof(Date);
+      expect(analyticData.session).to.have.property('endedAt').that.is.an.instanceof(Date);
     });
   });
 });

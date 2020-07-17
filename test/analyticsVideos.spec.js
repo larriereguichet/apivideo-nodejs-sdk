@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const apiVideo = require('../lib');
 const AnalyticVideo = require('../lib/Model/Analytic/analyticVideo');
 const AnalyticData = require('../lib/Model/Analytic/analyticData');
-const sessionResponse = require('./api/session');
+const analyticDataResponse = require('./api/analyticData');
 const { ITEMS_TOTAL } = require('./api');
 
 describe('AnalyticsVideo ressource', () => {
@@ -168,17 +168,19 @@ describe('AnalyticsVideo ressource', () => {
     });
   });
 
-  describe('Casting a session', () => {
+  describe('Casting analytic data', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
 
     it('Does not throw', async () => {
-      expect(client.analyticsVideo.cast(sessionResponse)).to.not.throw();
+      expect(
+        client.analyticsVideo.cast.bind(client.analyticsVideo, analyticDataResponse),
+      ).to.not.throw();
     });
 
     it('Cast date fields to Date objects', () => {
-      const castedSession = client.analyticsVideo.cast(sessionResponse);
-      expect(castedSession).to.have.property('loadedAt').that.is.an.instanceof(Date);
-      expect(castedSession).to.have.property('endedAt').that.is.an.instanceof(Date);
+      const castedSession = client.analyticsVideo.cast(analyticDataResponse);
+      expect(castedSession.session).to.have.property('loadedAt').that.is.an.instanceof(Date);
+      expect(castedSession.session).to.have.property('endedAt').that.is.an.instanceof(Date);
     });
   });
 });

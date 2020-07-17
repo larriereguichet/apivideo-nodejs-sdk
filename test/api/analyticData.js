@@ -1,4 +1,4 @@
-const session = {
+const analyticData = {
   client: {
     name: 'Firefox',
     type: 'browser',
@@ -31,4 +31,4 @@ const session = {
   },
 };
 
-module.expost = session;
+module.exports = analyticData;
