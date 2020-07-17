@@ -16,7 +16,7 @@ describe('analyticsLive ressource', () => {
     it('Sends good request', () => {
       client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?',
+        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
         method: 'GET',
         headers: {},
         json: true,
@@ -52,7 +52,7 @@ describe('analyticsLive ressource', () => {
     it('Sends good request', () => {
       client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x', '2019-01').catch(() => {});
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?period=2019-01',
+        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
         method: 'GET',
         headers: {},
         json: true,

@@ -16,7 +16,7 @@ describe('AnalyticsVideo ressource', () => {
     it('Sends good request', () => {
       client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?',
+        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
         method: 'GET',
         headers: {},
         json: true,
@@ -49,7 +49,7 @@ describe('AnalyticsVideo ressource', () => {
     it('Sends good request', () => {
       client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01').catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?period=2019-01',
+        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
         method: 'GET',
         headers: {},
         json: true,
@@ -92,14 +92,6 @@ describe('AnalyticsVideo ressource', () => {
         headers: {},
         json: true,
       });
-    });
-
-    it('Return an array of analytic video object', async () => {
-      const analyticsVideos = await client.analyticsVideo.search(parameters);
-      expect(analyticsVideos).to.be.an('array');
-      analyticsVideos.data.forEach(
-        analyticVideo => expect(analyticVideo).to.have.keys(Object.keys(new AnalyticVideo())),
-      );
     });
   });
 
