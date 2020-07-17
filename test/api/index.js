@@ -95,6 +95,7 @@ exports.mochaHooks = {
 
       // videos captions
       .get('/videos/vix1x1x1x1x1x1x1x1x1x/captions')
+      .query(true)
       .reply(200, createCollectionReply(caption))
       .get('/videos/vix1x1x1x1x1x1x1x1x1x/captions/en')
       .reply(200, createCollectionReply(caption))
