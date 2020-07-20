@@ -79,7 +79,7 @@ describe('Captions ressource', () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.captions.getAll('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
       expect(client.captions.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions',
+        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions?currentPage=1&pageSize=100',
         method: 'GET',
         headers: {},
         json: true,
