@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.4] - 2020-076-20
+- Fix/failing test cases
+- Chore/reduce cast all duplication
+- chore: Add missing tests
+
 ## [1.8.3] - 2020-06-18
 - remove reference to npm
 
