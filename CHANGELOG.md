@@ -1,7 +1,10 @@
 # Changelog
 All changes to this project will be documented in this file.
 
-## [1.8.4] - 2020-076-20
+## [1.8.5] - 2020-10-06
+- Read chunks directly from source
+
+## [1.8.4] - 2020-07-20
 - Fix/failing test cases
 - Chore/reduce cast all duplication
 - chore: Add missing tests
