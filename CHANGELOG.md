@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.6] - 2021-01-15
+- Add missing analyticData.session.metadata
+
 ## [1.8.5] - 2020-10-06
 - Read chunks directly from source
 
