@@ -4,6 +4,7 @@ const AnalyticVideo = require('../lib/Model/Analytic/analyticVideo');
 const AnalyticData = require('../lib/Model/Analytic/analyticData');
 const analyticDataResponse = require('./api/analyticData');
 const { ITEMS_TOTAL } = require('./api');
+const { version } = require('../package.json');
 
 describe('AnalyticsVideo ressource', () => {
   describe('get without period', () => {
@@ -18,7 +19,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -51,7 +54,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -89,7 +94,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -113,7 +120,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25&period=2019-01',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -133,7 +142,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -154,7 +165,9 @@ describe('AnalyticsVideo ressource', () => {
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/videos?period=2019-01&pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });

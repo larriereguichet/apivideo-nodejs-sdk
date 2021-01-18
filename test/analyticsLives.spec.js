@@ -4,6 +4,7 @@ const AnalyticLive = require('../lib/Model/Analytic/analyticLive.js');
 const AnalyticData = require('../lib/Model/Analytic/analyticData.js');
 const { ITEMS_TOTAL } = require('./api');
 const analyticDataResponse = require('./api/analyticData');
+const { version } = require('../package.json');
 
 describe('analyticsLive ressource', () => {
   describe('get without period', () => {
@@ -18,7 +19,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -54,7 +57,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -91,7 +96,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams?currentPage=1&pageSize=25',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -115,7 +122,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams?currentPage=1&pageSize=25&period=2019-01',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -135,7 +144,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams?pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -157,7 +168,9 @@ describe('analyticsLive ressource', () => {
       expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/live-streams?period=2019-01&pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });

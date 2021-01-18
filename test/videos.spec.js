@@ -2,6 +2,7 @@ const path = require('path');
 const { expect } = require('chai');
 const apiVideo = require('../lib');
 const { ITEMS_TOTAL } = require('./api');
+const { version } = require('../package.json');
 
 describe('Videos ressource', () => {
   describe('create', () => {
@@ -20,7 +21,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: { description: 'Video test', title: 'Video test' },
         json: true,
       });
@@ -44,7 +47,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: { description: 'Video test 2', tag: ['test1', 'test2'] },
         json: true,
       });
@@ -64,7 +69,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -87,7 +94,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/status',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -105,7 +114,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?currentPage=1&pageSize=25',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -126,7 +137,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos?pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -155,7 +168,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos',
         method: 'POST',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: { description: properties.description, title, source },
         json: true,
       });
@@ -175,7 +190,9 @@ describe('Videos ressource', () => {
       client.videos.upload(source, {}, videoId).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/source');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
+      expect(client.videos.browser.lastRequest).to.deep.property('headers', {
+        'User-Agent': `api.video SDK (nodejs; v:${version})`
+      });
       expect(client.videos.browser.lastRequest.formData).to.be.an('object');
     });
   });
@@ -193,7 +210,9 @@ describe('Videos ressource', () => {
       client.videos.uploadThumbnail(source, videoId).catch(() => {});
       expect(client.videos.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail');
       expect(client.videos.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.videos.browser.lastRequest).to.deep.property('headers', {});
+      expect(client.videos.browser.lastRequest).to.deep.property('headers', {
+        'User-Agent': `api.video SDK (nodejs; v:${version})`
+      });
       expect(client.videos.browser.lastRequest.formData).to.be.an('object');
     });
   });
@@ -213,7 +232,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: properties,
         json: true,
       });
@@ -235,7 +256,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'PATCH',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: properties,
         json: true,
       });
@@ -257,7 +280,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/thumbnail',
         method: 'PATCH',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: properties,
         json: true,
       });
@@ -277,7 +302,9 @@ describe('Videos ressource', () => {
       expect(client.videos.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x',
         method: 'DELETE',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
