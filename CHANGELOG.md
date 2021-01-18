@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.7] - 2021-01-18
+- Add missing analyticData.session.metadata for live videos
+- Fix upload of large video files
+- Add "User Agent" header in requests
+
 ## [1.8.6] - 2021-01-15
 - Add missing analyticData.session.metadata
 
