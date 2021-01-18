@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const apiVideo = require('../lib');
 const Chapter = require('../lib/Model/chapter');
 const { ITEMS_TOTAL } = require('./api');
+const { version } = require('../package.json');
 
 describe('Chapters ressource', () => {
   describe('Upload', () => {
@@ -26,7 +27,7 @@ describe('Chapters ressource', () => {
       client.chapters.upload(source, properties).catch(() => {});
       expect(client.chapters.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters/en');
       expect(client.chapters.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.chapters.browser.lastRequest).to.deep.property('headers', {});
+      expect(client.chapters.browser.lastRequest).to.deep.property('headers', {'User-Agent': `api.video SDK (nodejs; v:${version})`});
       expect(client.chapters.browser.lastRequest.formData).to.be.an('object');
     });
   });
@@ -38,7 +39,9 @@ describe('Chapters ressource', () => {
       expect(client.chapters.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters/en',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -58,7 +61,9 @@ describe('Chapters ressource', () => {
       expect(client.chapters.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters?currentPage=1&pageSize=100',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -89,7 +94,9 @@ describe('Chapters ressource', () => {
       expect(client.chapters.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/chapters/en',
         method: 'DELETE',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });

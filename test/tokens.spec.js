@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const apiVideo = require('../lib');
+const { version } = require('../package.json');
 
 describe('Tokens ressource', () => {
   describe('generate', () => {
@@ -13,7 +14,9 @@ describe('Tokens ressource', () => {
       expect(client.tokens.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/tokens',
         method: 'POST',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: {},
         json: true,
       });

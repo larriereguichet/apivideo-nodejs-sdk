@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const apiVideo = require('../lib');
 const { ITEMS_TOTAL } = require('./api');
+const { version } = require('../package.json');
 
 describe('AnalyticsSessionEvent ressource', () => {
   describe('get without parameters', () => {
@@ -15,7 +16,9 @@ describe('AnalyticsSessionEvent ressource', () => {
       expect(client.analyticsSessionEvent.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/sessions/psx1x1x1x1x1x1x1x1x1x/events?pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -37,7 +40,9 @@ describe('AnalyticsSessionEvent ressource', () => {
       expect(client.analyticsSessionEvent.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/sessions/psx1x1x1x1x1x1x1x1x1x/events?currentPage=1&pageSize=25',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -61,7 +66,9 @@ describe('AnalyticsSessionEvent ressource', () => {
       expect(client.analyticsSessionEvent.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/analytics/sessions/psx1x1x1x1x1x1x1x1x1x/events?pageSize=100&currentPage=1',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });

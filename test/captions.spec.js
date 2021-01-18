@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const apiVideo = require('../lib');
 const Caption = require('../lib/Model/caption');
 const { ITEMS_TOTAL } = require('./api');
+const { version } = require('../package.json');
 
 describe('Captions ressource', () => {
   describe('Upload', () => {
@@ -26,7 +27,7 @@ describe('Captions ressource', () => {
       client.captions.upload(source, properties).catch(() => {});
       expect(client.captions.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en');
       expect(client.captions.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.captions.browser.lastRequest).to.deep.property('headers', {});
+      expect(client.captions.browser.lastRequest).to.deep.property('headers', {'User-Agent': `api.video SDK (nodejs; v:${version})`});
       expect(client.captions.browser.lastRequest.formData).to.be.an('object');
     });
   });
@@ -47,7 +48,9 @@ describe('Captions ressource', () => {
       expect(client.captions.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
         method: 'PATCH',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         body: { default: true },
         json: true,
       });
@@ -61,7 +64,9 @@ describe('Captions ressource', () => {
       expect(client.captions.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -81,7 +86,9 @@ describe('Captions ressource', () => {
       expect(client.captions.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions?currentPage=1&pageSize=100',
         method: 'GET',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
@@ -112,7 +119,9 @@ describe('Captions ressource', () => {
       expect(client.captions.browser.lastRequest).to.deep.equal({
         url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
         method: 'DELETE',
-        headers: {},
+        headers: {
+          'User-Agent': `api.video SDK (nodejs; v:${version})`,
+        },
         json: true,
       });
     });
