@@ -1,3 +1,4 @@
+![](https://github.com/apivideo/API_OAS_file/blob/master/apivideo_banner.png)
 # api.video NodeJS SDK
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/badges/quality-score.png?b=master&s=93531b005797e4b690cdbbe8459be0f75f1f3e6f)](https://scrutinizer-ci.com/g/ApiVideo/nodejs-sdk/?branch=master)
