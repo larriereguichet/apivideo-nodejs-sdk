@@ -3,7 +3,6 @@ const { expect } = require('chai');
 const apiVideo = require('../lib');
 const Player = require('../lib/Model/player');
 const { ITEMS_TOTAL } = require('./api');
-const { version } = require('../package.json');
 
 describe('Players ressource', () => {
   const client = new apiVideo.Client({ apiKey: 'test' });
@@ -34,53 +33,15 @@ describe('Players ressource', () => {
     it('Does not throw', async () => {
       await client.players.create(properties);
     });
-
-    it('Sends good request', () => {
-      client.players.create(properties).catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players',
-        method: 'POST',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        body: properties,
-        json: true,
-      });
-    });
   });
 
   describe('update', () => {
     it('Does not throw', async () => {
       await client.players.update('plx1x1x1x1x1x1x1x1x1x', properties);
     });
-
-    it('Sends good request', () => {
-      client.players.update('plx1x1x1x1x1x1x1x1x1x', properties).catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
-        method: 'PATCH',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        body: properties,
-        json: true,
-      });
-    });
   });
 
   describe('get', () => {
-    it('Sends good request', () => {
-      client.players.get('plx1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
-
     it('Returns a player', async () => {
       const player = await client.players.get('plx1x1x1x1x1x1x1x1x1x');
       expect(player).to.have.keys(Object.keys(new Player()));
@@ -88,22 +49,6 @@ describe('Players ressource', () => {
   });
 
   describe('Search first page', () => {
-    it('Sends good request', () => {
-      const parameters = {
-        currentPage: 1,
-        pageSize: 25,
-      };
-      client.players.search(parameters).catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players?currentPage=1&pageSize=25',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
-
     it('Returns an array', async () => {
       const parameters = {
         currentPage: 1,
@@ -124,19 +69,6 @@ describe('Players ressource', () => {
   });
 
   describe('Search without parameters', () => {
-    it('Sends good request', () => {
-      const parameters = {};
-      client.players.search(parameters).catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players?pageSize=100&currentPage=1',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
-
     it('Retrieves all pages ', async () => {
       const parameters = {};
       const players = await client.players.search(parameters);
@@ -152,51 +84,17 @@ describe('Players ressource', () => {
     it('Does not throw', async () => {
       await client.players.uploadLogo(source, playerId, link);
     });
-
-    it('Sends good request', () => {
-      client.players.uploadLogo(source, playerId, link).catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x/logo');
-      expect(client.players.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.players.browser.lastRequest).to.deep.property('headers', {
-        'User-Agent': `api.video SDK (nodejs; v:${version})`
-      });
-      expect(client.players.browser.lastRequest.formData).to.be.an('object');
-    });
   });
 
   describe('deleteLogo', () => {
     it('Does not throw', async () => {
       await client.players.deleteLogo('plx1x1x1x1x1x1x1x1x1x');
     });
-
-    it('Sends good request', () => {
-      client.players.deleteLogo('plx1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x/logo',
-        method: 'DELETE',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
   });
 
   describe('delete', () => {
     it('Does not throw', async () => {
       await client.players.delete('plx1x1x1x1x1x1x1x1x1x');
-    });
-
-    it('Sends good request', () => {
-      client.players.delete('plx1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.players.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/players/plx1x1x1x1x1x1x1x1x1x',
-        method: 'DELETE',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 

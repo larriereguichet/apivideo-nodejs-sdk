@@ -13,7 +13,8 @@
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --fix ./lib",
-    "test": "mocha --require test/api/index.js"
+    "test": "mocha --require test/api/index.js --exclude test/sandbox.spec.js",
+    "test:sandbox": "node test/sandbox.spec.js"
   },
   "files": [
     "lib/"
@@ -21,7 +22,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "request": "latest",
+    "form-data": "^3.0.0",
+    "got": "^11.8.1",
     "tempnam": "^1.1.0"
   },
   "devDependencies": {

@@ -3,7 +3,6 @@ const { expect } = require('chai');
 const apiVideo = require('../lib');
 const Caption = require('../lib/Model/caption');
 const { ITEMS_TOTAL } = require('./api');
-const { version } = require('../package.json');
 
 describe('Captions ressource', () => {
   describe('Upload', () => {
@@ -16,20 +15,6 @@ describe('Captions ressource', () => {
       };
       await client.captions.upload(source, properties);
     });
-
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const source = path.join(__dirname, 'data/en.vtt');
-      const properties = {
-        videoId: 'vix1x1x1x1x1x1x1x1x1x',
-        language: 'en',
-      };
-      client.captions.upload(source, properties).catch(() => {});
-      expect(client.captions.browser.lastRequest).to.deep.property('url', 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en');
-      expect(client.captions.browser.lastRequest).to.deep.property('method', 'POST');
-      expect(client.captions.browser.lastRequest).to.deep.property('headers', {'User-Agent': `api.video SDK (nodejs; v:${version})`});
-      expect(client.captions.browser.lastRequest.formData).to.be.an('object');
-    });
   });
 
   describe('updateDefault', () => {
@@ -39,38 +24,9 @@ describe('Captions ressource', () => {
       const language = 'en';
       await client.captions.updateDefault(videoId, language, true);
     });
-
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      const videoId = 'vix1x1x1x1x1x1x1x1x1x';
-      const language = 'en';
-      client.captions.updateDefault(videoId, language, true).catch(() => {});
-      expect(client.captions.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
-        method: 'PATCH',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        body: { default: true },
-        json: true,
-      });
-    });
   });
 
   describe('get', () => {
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.captions.get('vix1x1x1x1x1x1x1x1x1x', 'en').catch(() => {});
-      expect(client.captions.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
-
     it('Returns a caption', async () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const caption = await client.captions.get('vix1x1x1x1x1x1x1x1x1x', 'en');
@@ -80,19 +36,6 @@ describe('Captions ressource', () => {
   });
 
   describe('getAll', () => {
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.captions.getAll('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.captions.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions?currentPage=1&pageSize=100',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
-
     it('Returns an array of captions', async () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       const captions = await client.captions.getAll('vix1x1x1x1x1x1x1x1x1x');
@@ -111,19 +54,6 @@ describe('Captions ressource', () => {
     it('Does not throw', async () => {
       const client = new apiVideo.Client({ apiKey: 'test' });
       client.captions.delete('vix1x1x1x1x1x1x1x1x1x', 'en');
-    });
-
-    it('Sends good request', () => {
-      const client = new apiVideo.Client({ apiKey: 'test' });
-      client.captions.delete('vix1x1x1x1x1x1x1x1x1x', 'en').catch(() => {});
-      expect(client.captions.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/videos/vix1x1x1x1x1x1x1x1x1x/captions/en',
-        method: 'DELETE',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 
