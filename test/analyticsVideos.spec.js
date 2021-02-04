@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect, assert } = require('chai');
 const apiVideo = require('../lib');
 const AnalyticVideo = require('../lib/Model/Analytic/analyticVideo');
 const AnalyticData = require('../lib/Model/Analytic/analyticData');
@@ -84,15 +84,17 @@ describe('AnalyticsVideo ressource', () => {
       pageSize: 25,
     };
 
-    it('Does not throw', async () => {
+    it('Throws', async () => {
       await client.analyticsVideo
-        .search(parameters);
+        .search(parameters)
+        .then(() => assert.fail())
+        .catch(() => assert(true));
     });
 
     it('Sends good request', () => {
       client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25',
+        url: 'https://ws.api.video/analytics/videos?pageSize=25&currentPage=1',
         method: 'GET',
         headers: {
           'User-Agent': `api.video SDK (nodejs; v:${version})`,
@@ -110,15 +112,17 @@ describe('AnalyticsVideo ressource', () => {
       period: '2019-01',
     };
 
-    it('Does not throw', async () => {
+    it('Throws', async () => {
       await client.analyticsVideo
-        .search(parameters);
+        .search(parameters)
+        .then(() => assert.fail())
+        .catch(() => assert(true));
     });
 
     it('Sends good request', () => {
       client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?currentPage=1&pageSize=25&period=2019-01',
+        url: 'https://ws.api.video/analytics/videos?pageSize=25&currentPage=1&period=2019-01',
         method: 'GET',
         headers: {
           'User-Agent': `api.video SDK (nodejs; v:${version})`,
@@ -132,9 +136,11 @@ describe('AnalyticsVideo ressource', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
     const parameters = {};
 
-    it('Does not throw', async () => {
+    it('Throws', async () => {
       await client.analyticsVideo
-        .search(parameters);
+        .search(parameters)
+        .then(() => assert.fail())
+        .catch(() => assert(true));
     });
 
     it('Sends good request', () => {
@@ -156,14 +162,17 @@ describe('AnalyticsVideo ressource', () => {
       period: '2019-01',
     };
 
-    it('Does not throw', async () => {
-      await client.analyticsVideo.search(parameters);
+    it('Throw', async () => {
+      await client.analyticsVideo
+        .search(parameters)
+        .then(() => assert.fail())
+        .catch(() => assert(true));
     });
 
     it('Sends good request', () => {
       client.analyticsVideo.search(parameters).catch(() => {});
       expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?period=2019-01&pageSize=100&currentPage=1',
+        url: 'https://ws.api.video/analytics/videos?pageSize=100&currentPage=1&period=2019-01',
         method: 'GET',
         headers: {
           'User-Agent': `api.video SDK (nodejs; v:${version})`,

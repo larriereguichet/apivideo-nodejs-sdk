@@ -33,6 +33,13 @@ const createCollectionReply = (item, itemsTotal = ITEMS_TOTAL) => function () {
   ));
 };
 
+const notFoundResponse = {
+  status: 404,
+  type: 'https://docs.api.video/docs/resourcenot_found',
+  title: 'The requested resource could not be found.',
+  name: '',
+};
+
 exports.mochaHooks = {
   beforeEach(done) {
     nock(BASE)
@@ -112,7 +119,7 @@ exports.mochaHooks = {
       .reply(200, createCollectionReply(analyticData))
       .get('/analytics/videos')
       .query(true)
-      .reply(200, createCollectionReply(analyticData))
+      .replyWithError(notFoundResponse)
 
       // sessions
       .get('/analytics/sessions/psx1x1x1x1x1x1x1x1x1x/events')
@@ -149,7 +156,7 @@ exports.mochaHooks = {
       .reply(200, createCollectionReply(analyticData))
       .get('/analytics/live-streams')
       .query(true)
-      .reply(200, createCollectionReply(analyticData))
+      .replyWithError(notFoundResponse)
 
       // players
       .get('/players')
