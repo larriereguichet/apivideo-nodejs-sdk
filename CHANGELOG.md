@@ -1,6 +1,12 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.8.8] - 2021-02-04
+- Deprecate methods using endpoints unavailable in the current API:
+  - `analyticsLive.search`
+  - `analytics.search`
+- Deprecate `accounts.get`
+
 ## [1.8.7] - 2021-01-18
 - Add missing analyticData.session.metadata for live videos
 - Fix upload of large video files
