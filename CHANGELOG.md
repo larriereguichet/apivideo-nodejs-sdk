@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.9.8] - 2021-02-09
+- Replace `request` library with `got`
+  - Fix issues related to the `lastRequest` paradigm (#6, #16)
+- Add sandbox testing file `API_KEY=xxx npm run test:sandbox`
+
 ## [1.8.8] - 2021-02-04
 - Deprecate methods using endpoints unavailable in the current API:
   - `analyticsLive.search`

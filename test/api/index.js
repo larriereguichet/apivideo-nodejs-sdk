@@ -57,6 +57,10 @@ exports.mochaHooks = {
       .post('/tokens')
       .reply(201)
 
+      // unauthorized
+      .get('/unauthorized')
+      .reply(401, {}, { 'content-type': 'application/problem+json' })
+
       // videos
       .get('/videos')
       .query(true)

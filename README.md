@@ -413,19 +413,11 @@ client.lives.uploadThumbnail(source, liveStreamId);
 // Get video analytics between period
 client.analyticsVideo.get(videoId, period);
 
-// Search videos analytics between period, filter with tags or metadata
-client.analyticsVideo.search(parameters);
-
 // Get live analytics between period
 client.analyticsLive.get(liveStreamId, period);
 
-// Search lives analytics between period, filter with tags or metadata
-client.analyticsLive.search(parameters);
-
 // Get analytics session events
 client.analyticsLive.get(sessionId, parameters);
-
-
 ```
 
 
@@ -546,7 +538,7 @@ client.analyticsLive.get(sessionId, parameters);
 |    **get**                          |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
-                                                     
+
 ### AnalyticsSessionEvent                         
                                       
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values/Format**   |         
@@ -569,3 +561,14 @@ client.analyticsLive.get(sessionId, parameters);
 ## More on api.video
 
 A full technical documentation is available on https://docs.api.video/
+
+## Test
+```
+npm run test
+```
+
+You can also run a bunch of commands against your actual sandbox:
+```
+API_KEY=xxx npm run test:sandbox
+```
+> Use the __Sandbox API Key__ and not your production key.

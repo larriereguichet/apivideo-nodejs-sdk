@@ -4,7 +4,6 @@ const AnalyticVideo = require('../lib/Model/Analytic/analyticVideo');
 const AnalyticData = require('../lib/Model/Analytic/analyticData');
 const analyticDataResponse = require('./api/analyticData');
 const { ITEMS_TOTAL } = require('./api');
-const { version } = require('../package.json');
 
 describe('AnalyticsVideo ressource', () => {
   describe('get without period', () => {
@@ -12,18 +11,6 @@ describe('AnalyticsVideo ressource', () => {
 
     it('Does not throw', async () => {
       await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x');
-    });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
 
     it('Return an analytic video object', async () => {
@@ -47,18 +34,6 @@ describe('AnalyticsVideo ressource', () => {
     const client = new apiVideo.Client({ apiKey: 'test' });
     it('Does not throw', async () => {
       await client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01');
-    });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.get('vix1x1x1x1x1x1x1x1x1x', '2019-01').catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos/vix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
 
     it('Return an analytic video object', async () => {
@@ -90,18 +65,6 @@ describe('AnalyticsVideo ressource', () => {
         .then(() => assert.fail())
         .catch(() => assert(true));
     });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.search(parameters).catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?pageSize=25&currentPage=1',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
   });
 
   describe('Search with parameters with period', () => {
@@ -118,18 +81,6 @@ describe('AnalyticsVideo ressource', () => {
         .then(() => assert.fail())
         .catch(() => assert(true));
     });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.search(parameters).catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?pageSize=25&currentPage=1&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
   });
 
   describe('Search without parameters without period', () => {
@@ -141,18 +92,6 @@ describe('AnalyticsVideo ressource', () => {
         .search(parameters)
         .then(() => assert.fail())
         .catch(() => assert(true));
-    });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.search(parameters).catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?pageSize=100&currentPage=1',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 
@@ -167,18 +106,6 @@ describe('AnalyticsVideo ressource', () => {
         .search(parameters)
         .then(() => assert.fail())
         .catch(() => assert(true));
-    });
-
-    it('Sends good request', () => {
-      client.analyticsVideo.search(parameters).catch(() => {});
-      expect(client.analyticsVideo.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/videos?pageSize=100&currentPage=1&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 

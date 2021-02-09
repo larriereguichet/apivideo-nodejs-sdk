@@ -4,7 +4,6 @@ const AnalyticLive = require('../lib/Model/Analytic/analyticLive.js');
 const AnalyticData = require('../lib/Model/Analytic/analyticData.js');
 const { ITEMS_TOTAL } = require('./api');
 const analyticDataResponse = require('./api/analyticData');
-const { version } = require('../package.json');
 
 describe('analyticsLive ressource', () => {
   describe('get without period', () => {
@@ -12,18 +11,6 @@ describe('analyticsLive ressource', () => {
 
     it('Does not throw', async () => {
       await client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x');
-    });
-
-    it('Sends good request', () => {
-      client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x').catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
 
     it('Return an analytic video object', async () => {
@@ -50,18 +37,6 @@ describe('analyticsLive ressource', () => {
 
     it('Does not throw', async () => {
       await client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x', '2019-01');
-    });
-
-    it('Sends good request', () => {
-      client.analyticsLive.get('lix1x1x1x1x1x1x1x1x1x', '2019-01').catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams/lix1x1x1x1x1x1x1x1x1x?currentPage=1&pageSize=100&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
 
     it('Return an analytic video object', async () => {
@@ -92,18 +67,6 @@ describe('analyticsLive ressource', () => {
         .then(() => assert.fail())
         .catch(() => assert(true));
     });
-
-    it('Sends good request', () => {
-      client.analyticsLive.search(parameters).catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams?pageSize=25&currentPage=1',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
   });
 
   describe('Search with parameters with period', () => {
@@ -119,18 +82,6 @@ describe('analyticsLive ressource', () => {
         .then(() => assert.fail())
         .catch(() => assert(true));
     });
-
-    it('Sends good request', () => {
-      client.analyticsLive.search(parameters).catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams?pageSize=25&currentPage=1&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
-    });
   });
 
   describe('Search without parameters without period', () => {
@@ -141,18 +92,6 @@ describe('analyticsLive ressource', () => {
       await client.analyticsLive.search(parameters)
         .then(() => assert.fail())
         .catch(() => assert(true));
-    });
-
-    it('Sends good request', () => {
-      client.analyticsLive.search(parameters).catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams?pageSize=100&currentPage=1',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 
@@ -166,18 +105,6 @@ describe('analyticsLive ressource', () => {
       await client.analyticsLive.search(parameters)
         .then(() => assert.fail())
         .catch(() => assert(true));
-    });
-
-    it('Sends good request', () => {
-      client.analyticsLive.search(parameters).catch(() => {});
-      expect(client.analyticsLive.browser.lastRequest).to.deep.equal({
-        url: 'https://ws.api.video/analytics/live-streams?pageSize=100&currentPage=1&period=2019-01',
-        method: 'GET',
-        headers: {
-          'User-Agent': `api.video SDK (nodejs; v:${version})`,
-        },
-        json: true,
-      });
     });
   });
 
