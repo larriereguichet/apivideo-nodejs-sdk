@@ -216,35 +216,11 @@ result.then(function(analyticVideo) {
   console.log(analyticVideo.data);
 });
 
-// Search Video Analytics Data for January 2019 and return the first 100 results
-let result = client.analyticsVideo.search({currentPage: 1, pageSize: 100, period: '2019-01'});
-
-result.then(function(analyticsVideo) {
-  for (let x = 0; x < analyticsVideo.length; x += 1) {
-    if (Object.prototype.hasOwnProperty.call(analyticsVideo, x)) {
-      let analyticVideo = analyticsVideo[x];
-      console.log(analyticVideo.data);
-    }
-  }
-});
-
 // Get live Analytics Data for the month of July 2018
 let result = client.analyticsLive.get('liXxxxXxxxXxxxxxxxXX', '2019-01');
 
 result.then(function(analyticLive) {
   console.log(analyticLive.data);
-});
-
-// Search Live Analytics Data between May 2018 and July 2018 and return the first 100 results
-let result = client.analyticsLive.search({currentPage: 1, pageSize: 100, period: '2019-01'});
-
-result.then(function(analyticsLive) {
-  for (let x = 0; x < analyticsLive.length; x += 1) {
-    if (Object.prototype.hasOwnProperty.call(analyticsLive, x)) {
-      let analyticLive = analyticsLive[x];
-      console.log(analyticLive.data);
-    }
-  }
 });
 
 // Get Analytics Session Events for a sessionId
@@ -562,7 +538,6 @@ client.analyticsLive.get(sessionId, parameters);
 |    **get**                          |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   videoId(string)     |    Video identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
-|    **search**                       |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>Pagination/Filters:</li><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li><li>tags(string&#124;array(string))</li><li>metadata(array(string))</li><li>Period:</li><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
 
 ### AnalyticsLive                         
                                       
@@ -571,7 +546,6 @@ client.analyticsLive.get(sessionId, parameters);
 |    **get**                          |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
 |    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
-|    **search**                       |   parameters(object)   |    Search parameters       |   :x:                  |      <ul><li>Pagination/Filters:</li><li>currentPage(int)</li><li>pageSize(int)</li><li>sortBy(string)</li><li>sortOrder(string)</li><li>Period:</li><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
                                                      
 ### AnalyticsSessionEvent                         
                                       
@@ -591,7 +565,7 @@ client.analyticsLive.get(sessionId, parameters);
                                       
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
-|    **get**                     |   **-**               | Get account informations (quota, features) |   **-**                |      **-**             |
+|    ~~**get**~~                     |   **-**               | ~~Get account informations (quota, features)~~ |   **-**                |      **-**             |
 ## More on api.video
 
 A full technical documentation is available on https://docs.api.video/
