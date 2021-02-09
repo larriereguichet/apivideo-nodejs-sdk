@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.10.0] - 2021-02-09
+- Allow optional `ttl` parameter in `client.tokens.generate`
+
 ## [1.9.8] - 2021-02-09
 - Replace `request` library with `got`
   - Fix issues related to the `lastRequest` paradigm (#6, #16)
