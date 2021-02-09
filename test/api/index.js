@@ -54,7 +54,7 @@ exports.mochaHooks = {
         refresh_token: '',
       })
       // tokens
-      .post('/tokens')
+      .post('/upload-tokens')
       .reply(201)
 
       // unauthorized
