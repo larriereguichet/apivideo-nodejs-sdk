@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.10.1] - 2021-02-09
+- Add an `ApiVideoError` custom error
+  - This error object now exposes the `problemDetails` object
+> see https://docs.api.video/docs/problem-details for more details on possible errors
+
 ## [1.10.0] - 2021-02-09
 - Allow optional `ttl` parameter in `client.tokens.generate`
 

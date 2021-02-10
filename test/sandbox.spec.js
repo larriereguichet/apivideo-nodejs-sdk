@@ -30,6 +30,11 @@ const timeout = (ms = 100) => new Promise((resolve) => {
       expect(video.description).to.equals(newDescription);
     });
 
+    // Search videos with paginated results
+    await client.videos.search({ currentPage: 1, pageSize: 50 }).then((videos) => {
+      videos.forEach(video => console.log(video.videoId));
+    });
+
     // Upload a video thumbnail
     await client.videos.uploadThumbnail('test/data/test.jpg', videoId).then((video) => {
       expect(video.title).to.equals(title);
