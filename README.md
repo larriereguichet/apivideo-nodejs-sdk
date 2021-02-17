@@ -537,7 +537,7 @@ client.analyticsLive.get(sessionId, parameters);
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
 |    **get**                          |   **-**               |    **-**                   |   **-**                |      **-**             |
 |    **-**                            |   liveStreamId(string)     |    Live identifier        |   :heavy_check_mark:   |      **-**             |
-|    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li><li>Week range: 2018-W01/2018-W03</li><li>Month range: 2018-01/2018-03</li><li>Year range: 2018/2020</li></ul>             |
+|    **-**                            |   period (string)     |    Period research         |   :x:                  |      <ul><li>For a day : 2018-01-01</li><li>For a week: 2018-W01</li><li>For a month: 2018-01</li><li>For a year: 2018</li><li>Date range: 2018-01-01/2018-01-15</li></ul>             |
 
 ### AnalyticsSessionEvent                         
                                       
