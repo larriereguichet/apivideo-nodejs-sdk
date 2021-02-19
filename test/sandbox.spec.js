@@ -13,7 +13,7 @@ const timeout = (ms = 100) => new Promise((resolve) => {
 (async () => {
   try {
     if (!process.env.API_KEY) {
-      console.error('You must provide `API_KEY` environnment variable to test the sandbox.');
+      console.error('You must provide `API_KEY` environment variable to test the sandbox.');
       console.log('API_KEY=xxx yarn test:sandbox');
 
       process.exit(1);
