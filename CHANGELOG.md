@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.10.2] - 2021-02-19
+- Add `public` property to a `Live`
+
 ## [1.10.1] - 2021-02-09
 - Add an `ApiVideoError` custom error
   - This error object now exposes the `problemDetails` object
