@@ -6,249 +6,36 @@
 
 The [api.video](https://api.video/) web-service helps you put video on the web without the hassle. 
 This documentation helps you use the corresponding NodeJS client.
- 
-## Quick start
 
-Install:
-
+## Installation
 ```shell
- npm install @api.video/nodejs-sdk
+npm install @api.video/nodejs-sdk
 ```
 
-Usage:
-
+## Usage
 ```javascript
 const apiVideo = require('@api.video/nodejs-sdk');
 
+(async () => {
+  try {
+    // Create client for Production and authenticate
+    const client = new apiVideo.Client({ apiKey: 'xxx' });
 
-
-// Create client for Production and authenticate
-const client = new apiVideo.Client({ apiKey: 'xxx' });
-
-// Create client for Sandbox and authenticate
-const client = new apiVideo.ClientSandbox({ apiKey: 'xxx' });
-
-// Create and upload a video ressource
-let result = client.videos.upload('/path/to/video.mp4', {title: 'Course #4 - Part B'});
-
-result.then(function(video) {
-  console.log(video.title);
-}).catch(function(error) {
-  console.error(error);
-});
-
-// Update video properties
-let result = client.videos.update('viXxxxXxxxXxxxxxxxXX', {description: 'Course #4 - Part B'});
-
-result.then(function(video) {
-  console.log(video.description);
-});
-
-// Search video by tags filter and paginate results
-let result = client.videos.search({currentPage: 1, pageSize: 25, tags: ['finance']});
-
-result.then(function(videos) {
-  for (let x = 0; x < videos.length; x += 1) {
-    if (Object.prototype.hasOwnProperty.call(videos, x)) {
-      let video = videos[x];
-      console.log(video.title);
-    }
+    // Create and upload a video ressource
+    const video = await client.videos.upload('test/data/small.webm', { title: 'Course #4 - Part B' });
+    console.log(video);
+  } catch (e) {
+    console.error(e);
   }
-});
-
-// Delete video ressource
-let result = client.videos.delete('viXxxxXxxxXxxxxxxxXX');
-result.then(function(statusCode) {
-  console.log(statusCode);
-}).catch(function(error) {
-  console.error(error);
-});
-
-// Upload a video thumbnail
-let result = client.videos.uploadThumbnail('/path/to/thumbnail.jpg', 'viXxxxXxxxXxxxxxxxXX');
-
-result.then(function(video) {
-  console.log(video.title);
-});
-
-// Update video thumbnail by picking image with video timecode
-let result = client.videos.updateThumbnailWithTimecode('viXxxxXxxxXxxxxxxxXX', '00:15:22.05');
-
-result.then(function(video) {
-  console.log(video.title);
-});
-
-// Create players with default values
-let result = client.players.create();
-
-result.then(function(player) {
-  console.log(player.playerId);
-});
-
-// Get a player
-let result = client.players.get('plXxxxXxxxXxxxxxxxXX');
-
-result.then(function(player) {
-  console.log(player.playerId);
-});
-
-// Search a player with paginate results
-let result = client.players.search({currentPage: 1, pageSize: 50});
-
-result.then(function(players) {
-  for (let x = 0; x < players.length; x += 1) {
-    if (Object.prototype.hasOwnProperty.call(players, x)) {
-      let player = players[x];
-      console.log(player.playerId);
-    }
-  }
-});
-
-let properties = {
-  shapeMargin: 10,
-  shapeRadius: 3,
-  shapeAspect: "flat",
-  shapeBackgroundTop: "rgba(50, 50, 50, .7)",
-  shapeBackgroundBottom: "rgba(50, 50, 50, .8)",
-  text: "rgba(255, 255, 255, .95)",
-  link: "rgba(255, 0, 0, .95)",
-  linkHover: "rgba(255, 255, 255, .75)",
-  linkActive: "rgba(255, 0, 0, .75)",
-  trackPlayed: "rgba(255, 255, 255, .95)",
-  trackUnplayed: "rgba(255, 255, 255, .1)",
-  trackBackground: "rgba(0, 0, 0, 0)",
-  backgroundTop: "rgba(72, 4, 45, 1)",
-  backgroundBottom: "rgba(94, 95, 89, 1)",
-  backgroundText: "rgba(255, 255, 255, .95)",
-  enableApi: true,
-  enableControls: true,
-  forceAutoplay: false,
-  hideTitle: true,
-  forceLoop: true
-};
-
-
-let result = client.players.update('plXxxxXxxxXxxxxxxxXX', properties);
-
-result.then(function(player) {
-  console.log(player.forceLoop);
-});
-
-
-// Upload a player logo
-let result = client.players.uploadLogo('/path/to/logo.png', 'plXxxxXxxxXxxxxxxxXX', 'https://api.video');
-
-result.then(function(player) {
-  console.log(player.logo);
-});
-
-
-
-let result = client.players.delete('plXxxxXxxxXxxxxxxxXX');
-result.then(function(statusCode) {
-  console.log(statusCode);
-}).catch(function(error) {
-  console.error(error);
-});
-
-
-// Upload video caption
-let result = client.captions.upload('path/to/caption.vtt', {videoId: 'viXxxxXxxxXxxxxxxxXX', language: 'en'});
-
-result.then(function(caption) {
-  console.log(caption.src);
-});
-
-// Get video caption by language
-let result = client.captions.get('viXxxxXxxxXxxxxxxxXX', 'en');
-
-result.then(function(caption) {
-  console.log(caption.src);
-});
-
-// Update the default caption language
-let result = client.captions.updateDefault('viXxxxXxxxXxxxxxxxXX', 'en', true);
-
-result.then(function(caption) {
-  console.log(caption.default);
-});
-
-//Delete caption by language
-let result = client.captions.delete('viXxxxXxxxXxxxxxxxXX', 'en');
-result.then(function(statusCode) {
-  console.log(statusCode);
-}).catch(function(error) {
-  console.error(error);
-});
-// Upload video chapter
-let result = client.chapters.upload('path/to/chapter.vtt', {videoId: 'viXxxxXxxxXxxxxxxxXX', language: 'en'});
-
-result.then(function(chapter) {
-  console.log(chapter.src);
-});
-
-// Get video chapter by language
-let result = client.chapters.get('viXxxxXxxxXxxxxxxxXX', 'en');
-
-result.then(function(chapter) {
-  console.log(chapter.src);
-});
-
-//Delete chapter by language
-let result = client.chapters.delete('viXxxxXxxxXxxxxxxxXX', 'en');
-result.then(function(statusCode) {
-  console.log(statusCode);
-}).catch(function(error) {
-  console.error(error);
-});
-
-// Create a live
-let result = client.lives.create('This is a live');
-
-result.then(function(live) {
-  console.log(live.name);
-});
-
-// Get video Analytics Data for the month of July 2018
-let result = client.analyticsVideo.get('viXxxxXxxxXxxxxxxxXX', '2019-01');
-
-result.then(function(analyticVideo) {
-  console.log(analyticVideo.data);
-});
-
-// Get live Analytics Data for the month of July 2018
-let result = client.analyticsLive.get('liXxxxXxxxXxxxxxxxXX', '2019-01');
-
-result.then(function(analyticLive) {
-  console.log(analyticLive.data);
-});
-
-// Get Analytics Session Events for a sessionId
-let result = client.analyticsSessionEvent.get('psXxxxXxxxXxxxxxxxXX');
-
-result.then(function(analyticSessionEvent) {
-  console.log(analyticSessionEvent.events);
-});
-
-
-// Generate a token for delegated upload
-let result = client.tokens.generate();
-result.then(function(token) {
-  console.log(token);
-});
+})();
 ```
+> See [sandbox.spec.js](test/sandbox.spec.js) for more usage examples.
 
 ## Full API
-
-```php
-<?php
-/*
- *********************************
- *********************************
- *         VIDEO                 *
- *********************************
- *********************************
-*/
+```javascript
+/**
+ * VIDEO
+ */
 const client = new apiVideo.Client({ apiKey: 'xxx' });
 
 // Show a video
@@ -282,7 +69,6 @@ client.videos.makePrivate(videoId);
 // Delete video (file and data)
 client.videos.delete(videoId);
 
-
 // Delegated upload (generate a token for someone to upload a video into your account)
 result = client.tokens.generate(); // string(3): "xyz"
 result.then(function(token) {
@@ -290,25 +76,18 @@ result.then(function(token) {
   //  curl https://ws.api.video/upload?token=xyz -F file=@video.mp4
 });
 
-
-/*
- *********************************
- *         VIDEO THUMBNAIL       *
- *********************************
-*/
-
+/**
+ * VIDEO THUMBNAIL
+ */
 // Upload a thumbnail for video
 client.videos.uploadThumbnail(source, videoId);
 
 // Update video's thumbnail by picking timecode
 client.videos.updateThumbnailWithTimecode(videoId, timecode);
 
-/*
- *********************************
- *         VIDEO CAPTIONS        *
- *********************************
-*/
-
+/**
+ * VIDEO CAPTIONS
+ */
 // Get caption for a video
 client.videos.captions.get(videoId, language);
 
@@ -325,13 +104,9 @@ client.videos.captions.updateDefault(videoId, language, isDefault);
 // Delete video's caption
 client.videos.captions.delete(videoId, language);
 
-
-/*
- *********************************
- *         VIDEO CHAPTERS        *
- *********************************
-*/
-
+/**
+ * VIDEO CHAPTERS
+ */
 // Get caption for a video
 client.videos.chapters.get(videoId, language);
 
@@ -344,13 +119,9 @@ client.videos.chapters.upload(source, properties);
 // Delete video's chapter
 client.videos.chapters.delete(videoId, language);
 
-
-/*
- *********************************
- *         PLAYERS               *
- *********************************
-*/
-
+/**
+ * PLAYERS
+ */
 // Get a player
 client.players.get(playerId);
 
@@ -372,14 +143,9 @@ client.players.deleteLogo(playerId);
 // Delete a player
 client.players.delete(playerId);
 
-/*
- *********************************
- *********************************
- *         LIVE                 *
- *********************************
- *********************************
-*/
-
+/**
+ * LIVE
+ */
 // Show a live
 client.lives.get(liveStreamId);
 
@@ -395,21 +161,15 @@ client.lives.update(liveStreamId, properties);
 // Delete live (file and data)
 client.lives.delete(liveStreamId);
 
-/*
- *********************************
- *         LIVE THUMBNAIL       *
- *********************************
-*/
-
+/**
+ * LIVE THUMBNAIL
+ */
 // Upload a thumbnail for live
 client.lives.uploadThumbnail(source, liveStreamId);
 
-/*
- *********************************
- *         ANALYTICS             *
- *********************************
-*/
-
+/**
+ * ANALYTICS
+ */
 // Get video analytics between period
 client.analyticsVideo.get(videoId, period);
 
@@ -420,10 +180,7 @@ client.analyticsLive.get(liveStreamId, period);
 client.analyticsLive.get(sessionId, parameters);
 ```
 
-
-
 ## Full API Details Implementation
-
 
 ### Videos
 
@@ -558,8 +315,8 @@ client.analyticsLive.get(sessionId, parameters);
 |     **Function**                    |   **Parameters**      |      **Description**       |      **Required**      |   **Allowed Values**   |         
 | :---------------------------------: | :-------------------: | :------------------------: | :--------------------: | :--------------------- |
 |    ~~**get**~~                     |   **-**               | ~~Get account informations (quota, features)~~ |   **-**                |      **-**             |
-## More on api.video
 
+## More on api.video
 A full technical documentation is available on https://docs.api.video/
 
 ## Test
